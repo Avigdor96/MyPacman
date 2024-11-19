@@ -61,11 +61,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void movePacman() {
 //        if (keyControl.up) {
-        if (keyControl.desiredDirection.equals("UP") && pacman.canMoveUp(myMap)) {
-            keyControl.currentDirection = "UP";
+        if (keyControl.desiredDirection.equals("UP")) {
+            System.out.println("UP");
+            if (pacman.canMoveUp(myMap)) {
+                System.out.println("Can");
+                keyControl.currentDirection = "UP";
 //                pacman.changeMonthUp();
 //                pacman.upManager(myMap);
-            //}
+                //}
+            }
         }// else if (keyControl.down) {
         else if (keyControl.desiredDirection.equals("DOWN") && pacman.canMoveDown(myMap)) {
             keyControl.currentDirection = "DOWN";
@@ -77,13 +81,16 @@ public class GamePanel extends JPanel implements Runnable {
        //else if (keyControl.right) {
         else if (keyControl.desiredDirection.equals("RIGHT") && pacman.canMoveRight(myMap)) {
             keyControl.currentDirection = "RIGHT";
-        //pacman.changeMonthRight();
-            if (pacman.canMoveRight(myMap)) {
-                pacman.rightManager(myMap);
-            }
-        } else if (keyControl.left) {
-            pacman.changeMouthLeft();
-            pacman.leftManager(myMap);
+            //pacman.changeMonthRight();
+//            if (pacman.canMoveRight(myMap)) {
+//                pacman.rightManager(myMap);
+//            }
+//        } else if (keyControl.left) {
+//            pacman.changeMouthLeft();
+//            pacman.leftManager(myMap);
+//        }
+        } else if (keyControl.desiredDirection.equals("LEFT") && pacman.canMoveLeft(myMap)) {
+            keyControl.currentDirection = "LEFT";
         }
         switch (keyControl.currentDirection){
             case "UP":
@@ -96,7 +103,11 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
             case "RIGHT":
                 pacman.changeMonthRight();
-                pacman.downManager(myMap);
+                pacman.rightManager(myMap);
+                break;
+            case "LEFT":
+                pacman.changeMouthLeft();
+                pacman.leftManager(myMap);
                 break;
 
         }

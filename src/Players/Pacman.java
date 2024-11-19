@@ -37,11 +37,13 @@ public class Pacman extends GeneralElement implements Speed, Movement {
     public void rightManager(GeneralElement[][] myMap) {
         int tempY = this.getLocationY();
         int tempX = this.getNextRightLoc();
+        if (this.canMoveRight(myMap)) {
         this.setPoint(this.getX() + speed, this.getY());
         if (myMap[tempY][tempX] instanceof Eatable) {
             int value = ((Eatable) myMap[tempY][tempX]).getValue();
             myMap[tempY][tempX] = new Empty(tempX * 25, tempY * 25);
             score += value;
+        }
         } else if (myMap[tempY][tempX] instanceof Channel) {
             if (tempX > 0) {
                 tempX = 0;
@@ -62,15 +64,18 @@ public class Pacman extends GeneralElement implements Speed, Movement {
             }
         }
 
-    }public void upManager(GeneralElement[][] myMap) {
+    }
+
+    public void upManager(GeneralElement[][] myMap) {
         int tempY = this.getNextUpLoc();
         int tempX = this.getLocationX();
-        this.setPoint(this.getX(), this.getY() - speed);
-        if (myMap[tempY][tempX] instanceof Eatable) {
-            int value = ((Eatable) myMap[tempY][tempX]).getValue();
-            myMap[tempY][tempX] = new Empty(tempX * 25, tempY * 25);
-            score += value;
-            System.out.println(score);
+        if (this.canMoveUp(myMap)) {
+            this.setPoint(this.getX(), this.getY() - speed);
+            if (myMap[tempY][tempX] instanceof Eatable) {
+                int value = ((Eatable) myMap[tempY][tempX]).getValue();
+                myMap[tempY][tempX] = new Empty(tempX * 25, tempY * 25);
+                score += value;
+            }
         }
     }
 
@@ -105,7 +110,7 @@ public class Pacman extends GeneralElement implements Speed, Movement {
 
 
     public Pacman(int size) {
-        setPoint(12 * size, 21 * size);
+        setPoint(13 * size, 21 * size);
         image = new ImageIcon("src/Pictures/PacmanLeftOpen.jpg");
         score = 0;
     }
@@ -178,7 +183,10 @@ public class Pacman extends GeneralElement implements Speed, Movement {
     }
 
     public boolean canMoveUp(GeneralElement[][] myMap){
-            return isOnFullX() && !(myMap[nextUpLoc][locationX] instanceof Block);
+        System.out.println("next up = " + nextUpLoc);
+        System.out.println("Location x = " + locationX);
+        System.out.println(myMap[nextUpLoc][locationX] instanceof Block);
+        return !((myMap[nextUpLoc][locationX]) instanceof Block);
     }
 
     @Override
@@ -188,7 +196,7 @@ public class Pacman extends GeneralElement implements Speed, Movement {
 
     @Override
     public boolean canMoveRight(GeneralElement[][] myMap) {
-       return isOnFullY() && !(myMap[locationY][nextRightLoc] instanceof Block);
+       return isOnFullY() &&  !(myMap[locationY][nextRightLoc] instanceof Block);
     }
 
     @Override
