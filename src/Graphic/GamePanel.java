@@ -12,14 +12,14 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     final int size = 25;
-    int speed = size;
+    int speed = 50;
     Reddy reddy = new Reddy(14, 13, size);
-    Pinky pinky = new Pinky(15, 13, size);
     Purpaley purpaley = new Purpaley(12, 13, size);
     Bluely bluely = new Bluely(11, 13, size);
     Pacman pacman = new Pacman(size);
     MapLevel1 mapLevel1 = new MapLevel1();
     GeneralElement[][] myMap = mapLevel1.ElementMap();
+    Pinky pinky = new Pinky(size, myMap);
     public KeyControl keyControl = new KeyControl();
     boolean runGame = true;
     Thread thread;
@@ -57,41 +57,25 @@ public class GamePanel extends JPanel implements Runnable {
         g.drawImage(pinky.getImage(), pinky.getX(), pinky.getY(), size, size, this);
         g.drawImage(purpaley.getImage(), purpaley.getX(), purpaley.getY(), size, size, this);
         g.drawImage(bluely.getImage(), bluely.getX(), bluely.getY(), size, size, this);
+        Toolkit.getDefaultToolkit().sync();
     }
 
+
     public void movePacman() {
-//        if (keyControl.up) {
         if (keyControl.desiredDirection.equals("UP")) {
-            System.out.println("UP");
             if (pacman.canMoveUp(myMap)) {
-                System.out.println("Can");
                 keyControl.currentDirection = "UP";
-//                pacman.changeMonthUp();
-//                pacman.upManager(myMap);
-                //}
             }
-        }// else if (keyControl.down) {
+        }
         else if (keyControl.desiredDirection.equals("DOWN") && pacman.canMoveDown(myMap)) {
             keyControl.currentDirection = "DOWN";
-           // pacman.changeMonthDown();
-//            if (pacman.canMoveDown(myMap)) {
-            //pacman.downManager(myMap);
-            //}
         }
-       //else if (keyControl.right) {
         else if (keyControl.desiredDirection.equals("RIGHT") && pacman.canMoveRight(myMap)) {
             keyControl.currentDirection = "RIGHT";
-            //pacman.changeMonthRight();
-//            if (pacman.canMoveRight(myMap)) {
-//                pacman.rightManager(myMap);
-//            }
-//        } else if (keyControl.left) {
-//            pacman.changeMouthLeft();
-//            pacman.leftManager(myMap);
-//        }
         } else if (keyControl.desiredDirection.equals("LEFT") && pacman.canMoveLeft(myMap)) {
             keyControl.currentDirection = "LEFT";
         }
+
         switch (keyControl.currentDirection){
             case "UP":
                 pacman.changeMonthUp();
@@ -117,10 +101,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void run() {
         while (runGame) {
             movePacman();
+            pinky.move(myMap);
             repaint();
             pacman.MouthControl();
             try {
-                Thread.sleep(80);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

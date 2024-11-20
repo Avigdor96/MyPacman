@@ -7,7 +7,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Ghost extends GeneralElement implements Speed, Movement {
-    private int speed;
+    //private int speed;
+    private int speed = 25;
+    //int score = 0;
+    private int locationX;
+    private int locationY;
+    private int nextUpLoc;
+    private int nextDownLoc;
+    private int nextRightLoc;
+    private int nextLeftLoc;
+    private boolean openMouth = true;
 
     public Ghost(int x, int y, int size) {
         setPoint(x * size, y * size);
@@ -23,7 +32,14 @@ public class Ghost extends GeneralElement implements Speed, Movement {
     public void setPoint(int x, int y) {
         point.x = x;
         point.y = y;
+        locationY = point.y / width;
+        locationX = point.x / width;
+        nextUpLoc = locationY  - 1;
+        nextDownLoc = locationY  + 1;
+        nextRightLoc = locationX  + 1;
+        nextLeftLoc =  locationX  - 1;
     }
+
 
     @Override
     public boolean isEaten() {
