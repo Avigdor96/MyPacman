@@ -24,10 +24,10 @@ public class Channel extends GeneralElement{
 
     }
 
-    @Override
-    public boolean isEaten() {
-        return false;
-    }
+//    @Override
+//    public boolean isEaten() {
+//        return false;
+//    }
 
     @Override
     public Image getImage() {
@@ -40,13 +40,13 @@ public class Channel extends GeneralElement{
 
     }
 
-    @Override
-    public int getWidth() {
-        return 0;
-    }
+//    @Override
+//    public int getWidth() {
+//        return 0;
+//    }
 
-    @Override
-    public int getHeight() {
-        return 0;
-    }
+//    @Override
+//    public int getHeight() {
+//        return 0;
+//    }
 }

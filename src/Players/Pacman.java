@@ -5,9 +5,10 @@ import Objects.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class Pacman extends GeneralElement implements Speed, Movement {
+public class Pacman extends GeneralElement implements Moveable {
     private int speed = 25;
-    int score = 0;
+    public int score = 0;
+    private int lives;
     private int locationX;
     private int locationY;
     private int nextUpLoc;
@@ -15,6 +16,16 @@ public class Pacman extends GeneralElement implements Speed, Movement {
     private int nextRightLoc;
     private int nextLeftLoc;
     private boolean openMouth = true;
+    private final int quarterCoins = 59;
+    private int coinValue = 10;
+    private int coinsEaten = 0;
+
+
+    public Pacman(int size) {
+        setPoint(13 * size, 21 * size);
+        image = new ImageIcon("src/Pictures/PacmanLeftOpen.jpg");
+        lives = 3;
+    }
 
     public void leftManager(GeneralElement[][] myMap){
         int tempY = this.getLocationY();
@@ -25,6 +36,7 @@ public class Pacman extends GeneralElement implements Speed, Movement {
                 int value = ((Eatable) myMap[tempY][tempX]).getValue();
                 myMap[tempY][tempX] = new Empty(tempX * 25, tempY * 25);
                 score += value;
+                updateCoinsEaten(value);
             }
         } else if (myMap[tempY][tempX + 1] instanceof Channel) {
             tempX = myMap[0].length -1;
@@ -42,9 +54,16 @@ public class Pacman extends GeneralElement implements Speed, Movement {
                 int value = ((Eatable) myMap[tempY][tempX]).getValue();
                 myMap[tempY][tempX] = new Empty(tempX * 25, tempY * 25);
                 score += value;
+                updateCoinsEaten(value);
             } else if (myMap[tempY][tempX] instanceof Channel) {
                 this.setPoint(tempX, this.getY());
             }
+        }
+    }
+
+    public void lifeManager(GeneralElement[][] map, int x, int y){
+        if (map[y][x] instanceof Ghost){
+            lives --;
         }
     }
 
@@ -57,6 +76,7 @@ public class Pacman extends GeneralElement implements Speed, Movement {
                 int value = ((Eatable) myMap[tempY][tempX]).getValue();
                 myMap[tempY][tempX] = new Empty(tempX * 25, tempY * 25);
                 score += value;
+                updateCoinsEaten(value);
             }
         }
 
@@ -66,11 +86,13 @@ public class Pacman extends GeneralElement implements Speed, Movement {
         int tempY = this.getNextUpLoc();
         int tempX = this.getLocationX();
         if (this.canMoveUp(myMap)) {
+            int i = 5;
             this.setPoint(this.getX(), this.getY() - speed);
             if (myMap[tempY][tempX] instanceof Eatable) {
                 int value = ((Eatable) myMap[tempY][tempX]).getValue();
                 myMap[tempY][tempX] = new Empty(tempX * 25, tempY * 25);
                 score += value;
+                updateCoinsEaten(value);
             }
         }
     }
@@ -103,12 +125,12 @@ public class Pacman extends GeneralElement implements Speed, Movement {
         return nextLeftLoc;
     }
 
+    public int getLives() {
+        return lives;
+    }
 
-
-    public Pacman(int size) {
-        setPoint(13 * size, 21 * size);
-        image = new ImageIcon("src/Pictures/PacmanLeftOpen.jpg");
-        score = 0;
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
     @Override
@@ -128,10 +150,6 @@ public class Pacman extends GeneralElement implements Speed, Movement {
         nextLeftLoc =  locationX  - 1;
     }
 
-    @Override
-    public boolean isEaten() {
-        return true;
-    }
 
     @Override
     public Image getImage() {
@@ -144,17 +162,6 @@ public class Pacman extends GeneralElement implements Speed, Movement {
     }
 
 
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
     public int getSpeed() {
         return speed;
     }
@@ -164,13 +171,6 @@ public class Pacman extends GeneralElement implements Speed, Movement {
         this.speed = speed;
     }
 
-//    public boolean isOnFullY(){
-//        return getY() % 25 == 0;
-//    }
-//
-//    public boolean isOnFullX(){
-//        return getX() % 25 == 0;
-//    }
 
     public boolean canMoveUp(GeneralElement[][] myMap){
         return !((myMap[nextUpLoc][locationX]) instanceof Block);
@@ -208,14 +208,6 @@ public class Pacman extends GeneralElement implements Speed, Movement {
         openMouth = !openMouth;
     }
 
-    public boolean getOpenMouth(){
-        return openMouth;
-    }
-
-    public void setOpenMouth(boolean change){
-        this.openMouth = change;
-    }
-
     public void changeMouthLeft(){
         if (openMouth){
         setImage(new ImageIcon("src/Pictures/PacmanLeftClose.jpg"));
@@ -246,4 +238,20 @@ public class Pacman extends GeneralElement implements Speed, Movement {
         }else{
             setImage(new ImageIcon("src/Pictures/PacmanDownOpen.jpg"));    }
     }
+
+    public boolean ateQuarter(){
+        boolean signOut = false;
+        signOut =  coinsEaten == quarterCoins;
+        if (signOut) coinsEaten = 0;
+        return signOut;
+    }
+
+    public void updateCoinsEaten(int value){
+        if (value == coinValue) coinsEaten++;
+    }
+
+
+
+
+
 }

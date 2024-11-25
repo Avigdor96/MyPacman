@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Coin extends GeneralElement implements Eatable{
-    protected int value = 30;
+    protected int value = 10;
 
 
     public Coin(int x, int y) {
@@ -27,10 +27,10 @@ public class Coin extends GeneralElement implements Eatable{
         point.y = y;
     }
 
-    @Override
-    public boolean isEaten() {
-        return true;
-    }
+//    @Override
+//    public boolean isEaten() {
+//        return true;
+//    }
 
     @Override
     public Image getImage() {
@@ -42,15 +42,15 @@ public class Coin extends GeneralElement implements Eatable{
         this.image = image;
     }
 
-    @Override
-    public int getWidth() {
-        return width;
-    }
+//    @Override
+//    public int getWidth() {
+//        return width;
+//    }
 
-    @Override
-    public int getHeight() {
-        return height;
-    }
+//    @Override
+//    public int getHeight() {
+//        return height;
+//    }
 
     @Override
     public int getValue() {

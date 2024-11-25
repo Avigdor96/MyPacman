@@ -2,7 +2,7 @@ package Players;
 
 import Objects.GeneralElement;
 
-public interface Movement {
+public interface Moveable {
     public boolean canMoveUp(GeneralElement[][] myMap);
     public boolean canMoveDown(GeneralElement[][] myMap);
     public boolean canMoveRight(GeneralElement[][] myMap);

@@ -1,47 +1,39 @@
 package Graphic;
 
 import Maps.MapLevel1;
-import Objects.Channel;
-import Objects.Coin;
-import Objects.Empty;
 import Objects.GeneralElement;
 import Players.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class GamePanel extends JPanel implements Runnable {
     final int size = 25;
-    int speed = 50;
-    Reddy reddy = new Reddy(14, 13, size);
-    Purpaley purpaley = new Purpaley(12, 13, size);
-    Bluely bluely = new Bluely(11, 13, size);
+    Reddish reddish = new Reddish(14, 13, size, "src/Pictures/Redy.jpg");
+    Purplish purplish = new Purplish(15, 13, size, "src/Pictures/Purplish.jpeg");
+    Bluish bluish = new Bluish(12, 13, size, "src/Pictures/Bluish.jpg");
+    Pinky pinky = new Pinky(13, 13, size, "src/Pictures/gifmaker_me (1).gif");
+    public Queue<Ghost> ghostQueueInside = new LinkedList<Ghost>();
+    public ArrayList<Ghost> ghostOutSide = new ArrayList<>();
     Pacman pacman = new Pacman(size);
     MapLevel1 mapLevel1 = new MapLevel1();
     GeneralElement[][] myMap = mapLevel1.ElementMap();
-    Pinky pinky = new Pinky(size, myMap);
     public KeyControl keyControl = new KeyControl();
     boolean runGame = true;
-    Thread thread;
+    Thread threadGame;
 
     public GamePanel() {
         this.addKeyListener(keyControl);
+        ghostQueueInside.add(pinky);
+        ghostQueueInside.add(bluish);
+        ghostQueueInside.add(reddish);
+        ghostQueueInside.add(purplish);
         this.setFocusable(true);
-        thread = new Thread(this);
-        thread.start();
-    }
-
-    public JPanel top() {
-        JPanel top = new JPanel();
-        Font font = new Font("Ariel", Font.BOLD, 40);
-        JLabel topLabel = new JLabel("Score: " + pacman.getScore());
-        topLabel.setForeground(Color.WHITE);
-        topLabel.setFont(font);
-        top.add(topLabel, BorderLayout.BEFORE_LINE_BEGINS);
-        top.setBackground(Color.BLACK);
-        top.setPreferredSize(new Dimension(0, 50));
-        top.setVisible(true);
-        return top;
+        threadGame = new Thread(this);
+        threadGame.start();
     }
 
     @Override
@@ -53,10 +45,10 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
         g.drawImage(pacman.getImage(), pacman.getX(), pacman.getY(), size, size, this);
-        g.drawImage(reddy.getImage(), reddy.getX(), reddy.getY(), size, size, this);
+        g.drawImage(reddish.getImage(), reddish.getX(), reddish.getY(), size, size, this);
         g.drawImage(pinky.getImage(), pinky.getX(), pinky.getY(), size, size, this);
-        g.drawImage(purpaley.getImage(), purpaley.getX(), purpaley.getY(), size, size, this);
-        g.drawImage(bluely.getImage(), bluely.getX(), bluely.getY(), size, size, this);
+        g.drawImage(purplish.getImage(), purplish.getX(), purplish.getY(), size, size, this);
+        g.drawImage(bluish.getImage(), bluish.getX(), bluish.getY(), size, size, this);
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -66,17 +58,15 @@ public class GamePanel extends JPanel implements Runnable {
             if (pacman.canMoveUp(myMap)) {
                 keyControl.currentDirection = "UP";
             }
-        }
-        else if (keyControl.desiredDirection.equals("DOWN") && pacman.canMoveDown(myMap)) {
+        } else if (keyControl.desiredDirection.equals("DOWN") && pacman.canMoveDown(myMap)) {
             keyControl.currentDirection = "DOWN";
-        }
-        else if (keyControl.desiredDirection.equals("RIGHT") && pacman.canMoveRight(myMap)) {
+        } else if (keyControl.desiredDirection.equals("RIGHT") && pacman.canMoveRight(myMap)) {
             keyControl.currentDirection = "RIGHT";
         } else if (keyControl.desiredDirection.equals("LEFT") && pacman.canMoveLeft(myMap)) {
             keyControl.currentDirection = "LEFT";
         }
 
-        switch (keyControl.currentDirection){
+        switch (keyControl.currentDirection) {
             case "UP":
                 pacman.changeMonthUp();
                 pacman.upManager(myMap);
@@ -97,13 +87,28 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void randomAll(){
+            for (int i = 0; i < ghostOutSide.size(); i++) {
+                ghostOutSide.get(i).randomMovement(myMap);
+            }
+        }
+
     @Override
     public void run() {
         while (runGame) {
             movePacman();
-            pinky.move(myMap);
             repaint();
+            randomAll();
             pacman.MouthControl();
+            if (pacman.ateQuarter()){
+                System.out.println("Ate quarter");
+                ghostOutSide.add(ghostQueueInside.peek());
+                Ghost ghost = ghostQueueInside.poll();
+                ghost.goOutGeneral();
+                System.out.println(ghost.getClass());
+                System.out.println("X: " + ghost.getX());
+                System.out.println("Y: " + ghost.getY());
+            }
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {

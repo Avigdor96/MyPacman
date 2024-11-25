@@ -21,10 +21,10 @@ public class Empty extends GeneralElement{
         point.y = y;
     }
 
-    @Override
-    public boolean isEaten() {
-        return true;
-    }
+//    @Override
+//    public boolean isEaten() {
+//        return true;
+//    }
 
     @Override
     public Image getImage() {
@@ -36,13 +36,13 @@ public class Empty extends GeneralElement{
         this.image = image;
     }
 
-    @Override
-    public int getWidth() {
-        return width;
-    }
+//    @Override
+//    public int getWidth() {
+//        return width;
+//    }
 
-    @Override
-    public int getHeight() {
-        return height;
-    }
+//    @Override
+//    public int getHeight() {
+//        return height;
+//    }
 }

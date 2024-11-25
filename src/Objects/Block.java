@@ -22,10 +22,10 @@ public class Block extends GeneralElement{
 
     }
 
-    @Override
-    public boolean isEaten() {
-        return false;
-    }
+//    @Override
+//    public boolean isEaten() {
+//        return false;
+//    }
 
     @Override
     public Image getImage() {
@@ -37,13 +37,13 @@ public class Block extends GeneralElement{
         this.image = image;
     }
 
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
+//    @Override
+//    public int getWidth() {
+//        return width;
+//    }
+//
+//    @Override
+//    public int getHeight() {
+//        return height;
+//    }
 }

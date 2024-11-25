@@ -1,5 +1,5 @@
 package Objects;
 
-public interface Speed {
-    public int getSpeed();
-}
+//public interface Speed {
+//    public int getSpeed();
+//}
