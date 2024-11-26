@@ -10,4 +10,13 @@ public abstract class GeneralElement implements Element{
     protected int width = 25;
     protected int height = 25;
 
+
+    public int getX(){
+        return point.x;
+    }
+
+    public int getY(){
+        return point.y;
+    }
+
 }

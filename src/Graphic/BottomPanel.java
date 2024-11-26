@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class BottomPanel extends JPanel {
     private ImageIcon heartIcon;
-    private ArrayList<JLabel> hearts;
     private Pacman pacman;
     private JLabel bottomLabel;
 

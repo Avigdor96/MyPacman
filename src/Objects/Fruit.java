@@ -16,10 +16,6 @@ public class Fruit extends GeneralElement implements Eatable{
         return value;
     }
 
-    @Override
-    public Point getPoint() {
-        return point;
-    }
 
     @Override
     public void setPoint(int x, int y) {
@@ -27,11 +23,6 @@ public class Fruit extends GeneralElement implements Eatable{
         point.y = y;
 
     }
-
-//    @Override
-//    public boolean isEaten() {
-//        return true;
-//    }
 
     @Override
     public Image getImage() {
@@ -43,13 +34,4 @@ public class Fruit extends GeneralElement implements Eatable{
         this.image = image;
     }
 
-//    @Override
-//    public int getWidth() {
-//        return width;
-//    }
-
-//    @Override
-//    public int getHeight() {
-//        return height;
-//    }
 }

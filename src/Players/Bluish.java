@@ -11,6 +11,6 @@ public class Bluish extends Ghost implements GhostInterface{
         setPoint(getX() + speed, getY());
         setPoint(getX(), getY() - speed);
         setPoint(getX(), getY() - speed);
-
+        setPoint(getX() - speed, getY());
     }
 }

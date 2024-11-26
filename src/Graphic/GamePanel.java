@@ -15,7 +15,7 @@ public class GamePanel extends JPanel implements Runnable {
     Reddish reddish = new Reddish(14, 13, size, "src/Pictures/Redy.jpg");
     Purplish purplish = new Purplish(15, 13, size, "src/Pictures/Purplish.jpeg");
     Bluish bluish = new Bluish(12, 13, size, "src/Pictures/Bluish.jpg");
-    Pinky pinky = new Pinky(13, 13, size, "src/Pictures/gifmaker_me (1).gif");
+    Pinky pinky = new Pinky(13, 11, size, "src/Pictures/gifmaker_me (1).gif");
     public Queue<Ghost> ghostQueueInside = new LinkedList<Ghost>();
     public ArrayList<Ghost> ghostOutSide = new ArrayList<>();
     Pacman pacman = new Pacman(size);
@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.addKeyListener(keyControl);
-        ghostQueueInside.add(pinky);
+        ghostOutSide.add(pinky);
         ghostQueueInside.add(bluish);
         ghostQueueInside.add(reddish);
         ghostQueueInside.add(purplish);
@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         for (int i = 0; i < myMap.length; i++) {
             for (int j = 0; j < myMap[i].length; j++) {
-                g.drawImage(myMap[i][j].getImage(), myMap[i][j].getPoint().x, myMap[i][j].getPoint().y, size, size, this);
+                g.drawImage(myMap[i][j].getImage(), myMap[i][j].getX(), myMap[i][j].getY(), size, size, this);
             }
         }
         g.drawImage(pacman.getImage(), pacman.getX(), pacman.getY(), size, size, this);
@@ -66,21 +66,26 @@ public class GamePanel extends JPanel implements Runnable {
             keyControl.currentDirection = "LEFT";
         }
 
+
         switch (keyControl.currentDirection) {
             case "UP":
-                pacman.changeMonthUp();
+                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextUpLoc(), myMap));
+                pacman.setImage(new ImageIcon("src/Pictures/PacmanUpGif.gif"));
                 pacman.upManager(myMap);
                 break;
             case "DOWN":
-                pacman.changeMonthDown();
+                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextDownLoc(), myMap));
+                pacman.setImage(new ImageIcon("src/Pictures/PacmanDownGif.gif"));
                 pacman.downManager(myMap);
                 break;
             case "RIGHT":
-                pacman.changeMonthRight();
+                pacman.updateCoinsEaten(pacman.eat(pacman.getNextRightLoc(), pacman.getLocationY(), myMap));
+                pacman.setImage(new ImageIcon("src/Pictures/PacmanRightGif.gif"));
                 pacman.rightManager(myMap);
                 break;
             case "LEFT":
-                pacman.changeMouthLeft();
+                pacman.updateCoinsEaten(pacman.eat(pacman.getNextLeftLoc(), pacman.getLocationY(), myMap));
+                pacman.setImage(new ImageIcon("src/Pictures/PacmanLeftGif.gif"));
                 pacman.leftManager(myMap);
                 break;
 
@@ -96,18 +101,14 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while (runGame) {
+            pacman.lifeManager(ghostOutSide);
             movePacman();
             repaint();
             randomAll();
-            pacman.MouthControl();
             if (pacman.ateQuarter()){
-                System.out.println("Ate quarter");
                 ghostOutSide.add(ghostQueueInside.peek());
                 Ghost ghost = ghostQueueInside.poll();
                 ghost.goOutGeneral();
-                System.out.println(ghost.getClass());
-                System.out.println("X: " + ghost.getX());
-                System.out.println("Y: " + ghost.getY());
             }
             try {
                 Thread.sleep(100);

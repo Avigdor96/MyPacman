@@ -38,6 +38,5 @@ public class TopPanel extends JPanel implements Runnable{
                 throw new RuntimeException(e);
             }
         }
-
     }
 }
