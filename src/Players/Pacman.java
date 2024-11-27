@@ -3,31 +3,54 @@ package Players;
 import Objects.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class Pacman extends Player {
     public int score = 0;
     private int lives;
     private final int quarterCoins = 59;
+    private int quartersEaten = 0;
     private int coinValue = 10;
     private int coinsEaten = 0;
 
+    public int getQuartersEaten() {
+        return quartersEaten;
+    }
+
     //Pacman constructor
     public Pacman(int size) {
-        setPoint(13 * size, 21 * size);
+        startPointX = 13;
+        startPointY = 21;
+        startPoint();
         image = new ImageIcon("src/Pictures/PacmanLeftOpen.jpg");
         lives = 3;
     }
 
-    public void lifeManager( ArrayList<Ghost> ghosts) {
+    public boolean pacmanDeath(ArrayList<Ghost> ghosts) {
         for (Ghost ghost : ghosts) {
-            if (ghost.getX() == getX() && ghost.getY() == getY()){
+            if (ghost.getX() == getX() && ghost.getY() == getY()) {
                 lives--;
+                startPoint();
+                return true;
             }
         }
+        return false;
     }
+
+    public void deathManage(){
+        setImage(new ImageIcon("src/Pictures/PacmanDeath.gif"));
+    }
+
+
+//    public void lifeManager(ArrayList<Ghost> ghosts) {
+//        for (Ghost ghost : ghosts) {
+//            if (ghost.getX() == getX() && ghost.getY() == getY()) {
+//                lives--;
+//                startPoint();
+//                setImage(new ImageIcon("src/Pictures/PacmanDeath.gif"));
+//            }
+//        }
+//    }
 
     //Manage eating
     public int eat(int x, int y, GeneralElement[][] map) {
@@ -54,14 +77,17 @@ public class Pacman extends Player {
 
     // Check if pacman ate quarter of regular coins
     public boolean ateQuarter() {
-        boolean signOut;
-        signOut = coinsEaten == quarterCoins;
-        if (signOut) coinsEaten = 0;
-        return signOut;
+        boolean signToOut;
+        signToOut = coinsEaten == quarterCoins;
+        if (signToOut){
+            coinsEaten = 0;
+            quartersEaten++;
+        }
+        return signToOut;
     }
 
     //Counts how many regular coins pacman ate
     public void updateCoinsEaten(int value) {
         if (value == coinValue) coinsEaten++;
     }
-}
+    }

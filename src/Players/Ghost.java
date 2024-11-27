@@ -10,9 +10,9 @@ import java.util.Random;
 public class Ghost extends Player{
     protected int currentDirection = -1;
 
-    public Ghost(int x, int y, int size, String imagePath) {
-        setPoint(x * size, y * size);
-        setImage(new ImageIcon(imagePath));
+    public Ghost() {
+        setPoint(startPointX * size, startPointY * size);
+        startPoint();
     }
 
     public void randomMovement(GeneralElement[][] map) {

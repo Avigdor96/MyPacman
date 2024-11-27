@@ -4,8 +4,12 @@ import javax.swing.*;
 
 public class Reddish extends Ghost implements GhostInterface{
 
-    public Reddish(int x, int y, int size, String imagePath) {
-        super(x, y, size, imagePath);
+
+    public Reddish() {
+        startPointX = 14;
+        startPointY = 13;
+        image = new ImageIcon("src/Pictures/Redy.jpg");
+        startPoint();
     }
 
     @Override
@@ -13,5 +17,6 @@ public class Reddish extends Ghost implements GhostInterface{
         setPoint(getX() - speed, getY());
         setPoint(getX(), getY() - speed);
         setPoint(getX(), getY() - speed);
+        setPoint(getX() + speed, getY());
     }
 }

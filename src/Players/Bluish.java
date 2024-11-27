@@ -1,9 +1,14 @@
 package Players;
 
+import javax.swing.*;
+
 public class Bluish extends Ghost implements GhostInterface{
 
-    public Bluish(int x, int y, int size, String imagePath) {
-        super(x, y, size, imagePath);
+    public Bluish(){
+        startPointX = 12;
+        startPointY = 13;
+        image = new ImageIcon("src/Pictures/Bluish.jpg");
+        startPoint();
     }
 
     @Override

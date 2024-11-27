@@ -8,12 +8,16 @@ import java.util.Random;
 
 public class Pinky extends Ghost implements GhostInterface {
 
-    public Pinky(int x, int y, int size, String imagePath) {
-        super(x, y, size, imagePath);
+    public Pinky(){
+        startPointX = 13;
+        startPointY = 11;
+        image = new ImageIcon("src/Pictures/gifmaker_me (1).gif");
+        startPoint();
     }
 
     @Override
     public void goOut() {
+        setPoint(getX() + speed, getY());
 
     }
 
