@@ -4,18 +4,17 @@ import Objects.*;
 
 public class MapLevel1 {
 
-
-
     public GeneralElement[][] ElementMap(){
+        int size = 15;
         MapLevel1 MapLevel1 = new MapLevel1();
         int[][] intMap = MapLevel1.intMap();
         GeneralElement[][] myMap = new GeneralElement[intMap.length][intMap[0].length];
         int posX = 0;
         int posY = 0;
         for (int i = 0; i < intMap.length; i++) {
-            posY = i * 25;
+            posY = i * size;
             for (int j = 0; j < intMap[i].length; j++) {
-                posX = j * 25;
+                posX = j * size;
                 switch (intMap[i][j]){
                     case 0:
                         myMap[i][j] = new Empty(posX, posY);

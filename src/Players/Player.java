@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class Player extends GeneralElement implements Moveable {
-    protected int speed = 25;
-    protected int size = 25;
+    protected int speed = 15;
+    protected int size = 15;
     protected int startPointX;
     protected int startPointY;
     protected int locationX;
@@ -119,7 +119,7 @@ public void upManager(GeneralElement[][] myMap) {
     }
 
     public void channelLeftManage(int x, int y, GeneralElement[][] map){
-        if (map[y][x] instanceof Channel) setPoint((map[0].length - 1) * 25, getY());
+        if (map[y][x] instanceof Channel) setPoint((map[0].length - 1) * size, getY());
     }
 
     public void channelRightManage(int x, int y, GeneralElement[][] map){

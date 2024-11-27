@@ -3,7 +3,7 @@ package Objects;
 import javax.swing.*;
 
 public class BigCoin extends Coin{
-    String colorView = "Red";
+//    String colorView = "Red";
 
     public BigCoin(int x, int y) {
         super(x, y);

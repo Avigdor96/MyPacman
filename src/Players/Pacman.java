@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Pacman extends Player {
     public int score = 0;
-    private int lives;
+    private int lives = 3;
     private final int quarterCoins = 59;
     private int quartersEaten = 0;
     private int coinValue = 10;
@@ -23,7 +23,7 @@ public class Pacman extends Player {
         startPointY = 21;
         startPoint();
         image = new ImageIcon("src/Pictures/PacmanLeftOpen.jpg");
-        lives = 3;
+//        lives = 3;
     }
 
     public boolean pacmanDeath(ArrayList<Ghost> ghosts) {
@@ -56,7 +56,7 @@ public class Pacman extends Player {
     public int eat(int x, int y, GeneralElement[][] map) {
         if (map[y][x] instanceof Eatable) {
             int value = ((Eatable) map[y][x]).getValue();
-            map[y][x] = new Empty(x * 25, y * 25);
+            map[y][x] = new Empty(x * size, y * size);
             score += value;
             return value;
         }
@@ -71,9 +71,9 @@ public class Pacman extends Player {
         return lives;
     }
 
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
+//    public void setLives(int lives) {
+//        this.lives = lives;
+//    }
 
     // Check if pacman ate quarter of regular coins
     public boolean ateQuarter() {

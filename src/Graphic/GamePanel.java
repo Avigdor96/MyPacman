@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class GamePanel extends JPanel implements Runnable {
-    final int size = 25;
+    final int size = 15;
     Pinky pinky = new Pinky();
     public Queue<Ghost> ghostQueueInside = new LinkedList<>();
     public ArrayList<Ghost> ghostListInside = new ArrayList<>();
