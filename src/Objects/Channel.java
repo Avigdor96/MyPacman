@@ -26,7 +26,6 @@ public class Channel extends GeneralElement{
 
     @Override
     public void setImage(ImageIcon image) {
-        image = image;
-
+        this.image = image;
     }
 }

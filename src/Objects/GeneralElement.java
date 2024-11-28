@@ -6,8 +6,8 @@ import java.awt.*;
 public abstract class GeneralElement implements Element{
     protected Point point = new Point();
     protected ImageIcon image;
-    protected boolean isEaten;
-    protected int width = 15;
+//    protected boolean isEaten;
+    protected int size = 15;
 
 
     public int getX(){

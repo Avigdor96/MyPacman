@@ -7,7 +7,7 @@ import java.awt.*;
 
 public abstract class Player extends GeneralElement implements Moveable {
     protected int speed = 15;
-    protected int size = 15;
+    // int size = 15;
     protected int startPointX;
     protected int startPointY;
     protected int locationX;
@@ -25,8 +25,8 @@ public abstract class Player extends GeneralElement implements Moveable {
     public void setPoint(int x, int y) {
         point.x = x;
         point.y = y;
-        locationY = point.y / width;
-        locationX = point.x / width;
+        locationY = point.y / size;
+        locationX = point.x / size;
         nextUpLoc = locationY  - 1;
         nextDownLoc = locationY  + 1;
         nextRightLoc = locationX  + 1;
@@ -65,7 +65,7 @@ public abstract class Player extends GeneralElement implements Moveable {
 
 
     public boolean canMoveLeft(GeneralElement[][] myMap) {
-        return !(myMap[locationY][nextLeftLoc] instanceof Block) ;
+        return !(myMap[locationY][nextLeftLoc] instanceof Block);
     }
 
     public boolean canMoveRight(GeneralElement[][] myMap) {
@@ -80,13 +80,6 @@ public abstract class Player extends GeneralElement implements Moveable {
         return !((myMap[nextUpLoc][locationX]) instanceof Block);
     }
 
-    public Point getPoint() {
-        return point;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
 
     public Image getImage() {
         return image.getImage();

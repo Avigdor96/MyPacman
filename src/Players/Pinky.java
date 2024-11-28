@@ -19,14 +19,6 @@ public class Pinky extends Ghost implements GhostInterface {
     @Override
     public void goOut() {
         setPoint(getX() + speed, getY());
-
     }
-
-//    @Override
-////    public void goOut() {
-////        setPoint(getX() , getY() - speed);
-////        setPoint(getX(), getY() - speed);
-////        setPoint(getX() + speed, getY());
-////    }
 }
 
