@@ -134,4 +134,8 @@ public void upManager(GeneralElement[][] myMap) {
         }
         channelLeftManage(tempX, tempY, myMap);
     }
+
+    public boolean onSamePosition(Player p, Player p1){
+        return p.getX() == p1.getX() && p.getY() == p1.getY();
+    }
 }

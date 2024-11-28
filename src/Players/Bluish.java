@@ -7,7 +7,8 @@ public class Bluish extends Ghost implements GhostInterface{
     public Bluish(){
         startPointX = 12;
         startPointY = 13;
-        image = new ImageIcon("src/Pictures/Bluish.jpg");
+        srcImage = new ImageIcon("src/Pictures/Bluish.jpg");
+        image = srcImage;
         startPoint();
     }
 

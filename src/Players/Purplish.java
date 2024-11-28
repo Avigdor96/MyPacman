@@ -8,7 +8,8 @@ public class Purplish extends Ghost implements GhostInterface{
     public Purplish() {
         startPointX = 15;
         startPointY = 13;
-        image = new ImageIcon("src/Pictures/Purplish.jpeg");
+        srcImage = new ImageIcon("src/Pictures/Purplish.jpeg");
+        image = srcImage;
         startPoint();
     }
 

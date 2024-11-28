@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int size = 15;
     Pinky pinky = new Pinky();
     public Queue<Ghost> ghostQueueInside = new LinkedList<>();
+    ArrayList<Ghost> allGhosts = new ArrayList<>();
     public ArrayList<Ghost> ghostListInside = new ArrayList<>();
     public ArrayList<Ghost> ghostListOutSide = new ArrayList<>();
     Pacman pacman = new Pacman(size);
@@ -109,6 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
             case "RIGHT":
                 pacman.updateCoinsEaten(pacman.eat(pacman.getNextRightLoc(), pacman.getLocationY(), myMap));
+                //pacman.bigCoinManage(ghostListInside, ghostListOutSide);
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanRightGif.gif"));
                 pacman.rightManager(myMap);
                 break;
@@ -121,6 +123,21 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // Brings the ghosts to start point when Pacman fails
+    public void backHome() {
+        ArrayList<Ghost> toRemove = new ArrayList<>();
+            for (Ghost ghost : ghostListOutSide) {
+                ghost.startPoint();
+                if (!(ghost instanceof Pinky)) {
+                    ghostQueueInside.add(ghost);
+                    ghostListInside.add(ghost);
+                    toRemove.add(ghost);
+                }
+            }
+            ghostListOutSide.removeAll(toRemove);
+    }
+
+    //Moves the ghosts outside randomly
     public void randomAll(){
             for (int i = 0; i < ghostListOutSide.size(); i++) {
                 ghostListOutSide.get(i).randomMovement(myMap);
@@ -130,15 +147,22 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while (pacman.getLives() > 0) {
-            if (pacman.pacmanDeath(ghostListOutSide)){
-                pacman.deathManage();
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
+            pacman.bigCoinManage(ghostListInside, ghostListOutSide);
+            pacman.meetWithGhost(ghostListOutSide, ghostListInside);
+//            if (pacman.pacmanDeath(ghostListOutSide)){
+//                pacman.deathImageManage();
+//                if (ghostListInside.size() > 0){
+//                    backHome();
+//                }
+//                try {
+//                    Thread.sleep(4000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+////            else {
+////                pacman.meetWithEatGhost(ghostListOutSide);
+////            }
             movePacman();
             repaint();
             randomAll();

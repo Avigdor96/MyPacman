@@ -11,7 +11,8 @@ public class Pinky extends Ghost implements GhostInterface {
     public Pinky(){
         startPointX = 13;
         startPointY = 11;
-        image = new ImageIcon("src/Pictures/gifmaker_me (1).gif");
+        srcImage = new ImageIcon("src/Pictures/gifmaker_me (1).gif");
+        image = srcImage;
         startPoint();
     }
 

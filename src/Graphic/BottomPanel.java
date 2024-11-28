@@ -30,7 +30,7 @@ public class BottomPanel extends JPanel implements Runnable{
     }
 
     public void refreshScore(){
-        //bottomLabel.setText("Life: "+ pacman.getLives());
+        bottomLabel.setText("Life: "+ pacman.getLives());
         ImageIcon image = new ImageIcon("src/Pictures/Heart.jpg");
         JLabel label = new JLabel(image);
         for (int i = 0; i < pacman.getLives(); i++) {

@@ -8,7 +8,8 @@ public class Reddish extends Ghost implements GhostInterface{
     public Reddish() {
         startPointX = 14;
         startPointY = 13;
-        image = new ImageIcon("src/Pictures/Redy.jpg");
+        srcImage = new ImageIcon("src/Pictures/Redy.jpg");
+        image = srcImage;
         startPoint();
     }
 

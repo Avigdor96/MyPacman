@@ -9,6 +9,10 @@ import java.util.Random;
 
 public class Ghost extends Player{
     protected int currentDirection = -1;
+    protected boolean eatable;
+    private int eatableTime = 5000;
+    protected ImageIcon srcImage;
+    //protected ImageIcon srcImage;
 
     public Ghost() {
         setPoint(startPointX * size, startPointY * size);
@@ -59,8 +63,16 @@ public class Ghost extends Player{
         }
     }
 
-
     public void goOutGeneral(){
         ((GhostInterface) this).goOut();
+    }
+
+    public void becomeFood(){
+        setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+        eatable = true;
+        new Timer(eatableTime, e->{
+            eatable = false;
+            setImage(this.srcImage);
+        }).start();
     }
 }
