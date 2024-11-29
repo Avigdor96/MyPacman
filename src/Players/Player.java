@@ -6,12 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class Player extends GeneralElement implements Moveable {
-    protected int speed = 15;
-    // int size = 15;
+    protected int speed = 5;
     protected int startPointX;
     protected int startPointY;
     protected int locationX;
     protected int locationY;
+//    protected int endX = locationX + size;
+//    protected int endY = locationY + size;
     protected int nextUpLoc;
     protected int nextDownLoc;
     protected int nextRightLoc;
@@ -27,6 +28,8 @@ public abstract class Player extends GeneralElement implements Moveable {
         point.y = y;
         locationY = point.y / size;
         locationX = point.x / size;
+//        endY = point.y / size;
+//        endX = point.x / size;
         nextUpLoc = locationY  - 1;
         nextDownLoc = locationY  + 1;
         nextRightLoc = locationX  + 1;

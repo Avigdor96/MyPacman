@@ -80,33 +80,28 @@ public class GamePanel extends JPanel implements Runnable {
         } else if (keyControl.desiredDirection.equals("LEFT") && pacman.canMoveLeft(myMap)) {
             keyControl.currentDirection = "LEFT";
         }
-
-
         switch (keyControl.currentDirection) {
             case "UP":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextUpLoc(), myMap));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextUpLoc(), myMap, this));
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanUpGif.gif"));
                 pacman.upManager(myMap);
                 break;
             case "DOWN":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextDownLoc(), myMap));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextDownLoc(), myMap, this));
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanDownGif.gif"));
                 pacman.downManager(myMap);
                 break;
             case "RIGHT":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getNextRightLoc(), pacman.getLocationY(), myMap));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getNextRightLoc(), pacman.getLocationY(), myMap, this));
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanRightGif.gif"));
                 pacman.rightManager(myMap);
                 break;
             case "LEFT":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getNextLeftLoc(), pacman.getLocationY(), myMap));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getNextLeftLoc(), pacman.getLocationY(), myMap, this));
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanLeftGif.gif"));
                 pacman.leftManager(myMap);
                 break;
         }
-//        if (pacman.ateBigCoin) {
-//            pacman.bigCoinManage(ghostListInside, ghostListOutSide);
-//        }
     }
 
     // Brings the ghosts to start point when Pacman fails
@@ -129,33 +124,30 @@ public class GamePanel extends JPanel implements Runnable {
                 ghostListOutSide.get(i).randomMovement(myMap);
             }
         }
+    public void becomeFood(){
+        for (int i = 0; i < ghostListInside.size(); i++) {
+            ghostListInside.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+        }
+        for (int i = 0; i < ghostListOutSide.size(); i++) {
+            ghostListOutSide.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+        }
+        new Timer(pacman.bigCoinTime, e->{
+            for (int i = 0; i < ghostListInside.size(); i++) {
+                ghostListInside.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+            }
+            for (int i = 0; i < ghostListOutSide.size(); i++) {
+                ghostListOutSide.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+            }
+        }).start();
+    }
 
     @Override
     public void run() {
         while (pacman.getLives() > 0) {
             movePacman();
-
-
-//            pacman.bigCoinManage(ghostListInside, ghostListOutSide);
-//            pacman.meetWithGhost(ghostListOutSide);
-//            if (pacman.pacmanCaught()){
-//                pacman.deathImageManage();
-//                if (ghostListInside.size() > 0){
-//                    backHome();
-//                }
-//                try {
-//                    Thread.sleep(4000);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            else {
-//                pacman.meetWithGhost(ghostListOutSide);
-//            }
-//
+            pacman.meetWithGhost(this);
             repaint();
-            System.out.println("repainted");
             randomAll();
-            System.out.println("randomAll");
             if (pacman.ateQuarter() &&  ghostQueueInside.peek() != null){
                 ghostListOutSide.add(ghostQueueInside.peek());
                 ghostListInside.remove(ghostQueueInside.peek());

@@ -1,5 +1,6 @@
 package Players;
 
+import Graphic.GamePanel;
 import Objects.*;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ public class Pacman extends Player {
     private int coinValue = 10;
     private int coinsEaten = 0;
     public boolean ateBigCoin;
-    private int bigCoinTime = 1000;
+    public int bigCoinTime = 8000;
     private int timeCaught = 4000;
 
 
@@ -25,56 +26,49 @@ public class Pacman extends Player {
         image = new ImageIcon("src/Pictures/PacmanLeftOpen.jpg");
     }
 
-    public void pacmanCaught() {
+    public void pacmanCaught(GamePanel gamePanel) {
         lives--;
         startPoint();
         deathImageManage();
         new Timer(timeCaught, e->{
             setImage(new ImageIcon("src/Pictures/PacmanLeftOpen.jpg"));
         }).start();
+        gamePanel.backHome();
     }
 
-    public void meetWithGhost(ArrayList<Ghost> out){
-        for (Ghost ghost : out) {
-            if (onSamePosition(this, ghost)){
-                if (ateBigCoin){
-                    ghost.startPoint();
-                    ghost.setImage(image);
-                }
-                else{
-                    pacmanCaught();
+    public void meetWithGhost(GamePanel panel) {
+        for (int i = 0; i < panel.ghostListOutSide.size(); i++) {
+                if (onSamePosition(this, panel.ghostListOutSide.get(i))) {
+                    if (ateBigCoin) {
+                        panel.ghostListOutSide.get(i).startPoint();
+                        panel.ghostListOutSide.get(i).setImage(panel.ghostListOutSide.get(i).srcImage);
+
+                    } else {
+                        pacmanCaught(panel);
+                    }
                 }
             }
         }
-    }
 
     public void deathImageManage(){
         setImage(new ImageIcon("src/Pictures/PacmanDeath.gif"));
     }
 
-
-//    //Manage ghosts when Pacman ate bigCoin and makes them to eatable
-//    public void bigCoinManage(ArrayList<Ghost> in, ArrayList<Ghost> out) {
-//
-//            Ghost ghost = new Ghost();
-//            ghost.becomeFood(in, out);
-//        }
-
     //Manage eating
-    public int eat(int x, int y, GeneralElement[][] map) {
+    public int eat(int x, int y, GeneralElement[][] map, GamePanel panel) {
         if (map[y][x] instanceof Coin && !(map[y][x] instanceof BigCoin)) {
             int value = ((Coin) map[y][x]).getValue();
             map[y][x] = new Empty(x * size, y * size);
             score += value;
             return value;
         }
-        else if (map[y][x] instanceof BigCoin){
-            int value = ((BigCoin) map[y][x]).getValue();
-            map[y][x] = new Empty(x * size, y * size);
-            score += value;
-            return value;
-
-        }
+//        else if (map[y][x] instanceof BigCoin){
+//            int value = ((BigCoin) map[y][x]).getValue();
+//            map[y][x] = new Empty(x * size, y * size);
+//            score += value;
+//            panel.becomeFood();
+//            return value;
+//        }
         return 0;
     }
 

@@ -67,22 +67,22 @@ public class Ghost extends Player{
         ((GhostInterface) this).goOut();
     }
 
-    public void becomeFood(ArrayList<Ghost> in, ArrayList<Ghost> out){
-        for (int i = 0; i < in.size(); i++) {
-            in.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
-        }
-        for (int i = 0; i < out.size(); i++) {
-            out.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
-        }
-        new Timer(eatableTime, e->{
-            for (int i = 0; i < in.size(); i++) {
-                in.get(i).setImage(srcImage);
-            }
-            for (int i = 0; i < out.size(); i++) {
-                out.get(i).setImage(srcImage);
-            }
-        }).start();
-    }
+//    public void becomeFood(ArrayList<Ghost> in, ArrayList<Ghost> out){
+//        for (int i = 0; i < in.size(); i++) {
+//            in.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+//        }
+//        for (int i = 0; i < out.size(); i++) {
+//            out.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+//        }
+//        new Timer(eatableTime, e->{
+//            for (int i = 0; i < in.size(); i++) {
+//                in.get(i).setImage(srcImage);
+//            }
+//            for (int i = 0; i < out.size(); i++) {
+//                out.get(i).setImage(srcImage);
+//            }
+//        }).start();
+//    }
 
     //Create ghosts and adding to list inside
     public static void createGhostInside(ArrayList<Ghost> in){
