@@ -11,7 +11,7 @@ public class Ghost extends Player{
     protected int currentDirection = -1;
     protected boolean eatable;
     private int eatableTime = 5000;
-    protected ImageIcon srcImage;
+    public ImageIcon srcImage;
     //protected ImageIcon srcImage;
 
     public Ghost() {

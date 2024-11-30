@@ -36,27 +36,27 @@ public class Pacman extends Player {
         gamePanel.backHome();
     }
 
-    public void meetWithGhost(GamePanel panel) {
-        for (int i = 0; i < panel.ghostListOutSide.size(); i++) {
-                if (onSamePosition(this, panel.ghostListOutSide.get(i))) {
-                    if (ateBigCoin) {
-                        panel.ghostListOutSide.get(i).startPoint();
-                        panel.ghostListOutSide.get(i).setImage(panel.ghostListOutSide.get(i).srcImage);
-
-                    } else {
-                        pacmanCaught(panel);
-                    }
-                }
-            }
-        }
+//    public void meetWithGhost(GamePanel panel) {
+//        for (int i = 0; i < panel.ghostListOutSide.size(); i++) {
+//                if (onSamePosition(this, panel.ghostListOutSide.get(i))) {
+//                    if (ateBigCoin) {
+//                        panel.ghostListOutSide.get(i).startPoint();
+//                        panel.ghostListOutSide.get(i).setImage(panel.ghostListOutSide.get(i).srcImage);
+//
+//                    } else {
+//                        pacmanCaught(panel);
+//                    }
+//                }
+//            }
+//        }
 
     public void deathImageManage(){
         setImage(new ImageIcon("src/Pictures/PacmanDeath.gif"));
     }
 
     //Manage eating
-    public int eat(int x, int y, GeneralElement[][] map, GamePanel panel) {
-        if (map[y][x] instanceof Coin && !(map[y][x] instanceof BigCoin)) {
+    public int eat(int x, int y, GeneralElement[][] map) {
+        if (map[y][x] instanceof Coin) {
             int value = ((Coin) map[y][x]).getValue();
             map[y][x] = new Empty(x * size, y * size);
             score += value;

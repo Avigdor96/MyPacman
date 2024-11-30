@@ -82,22 +82,22 @@ public class GamePanel extends JPanel implements Runnable {
         }
         switch (keyControl.currentDirection) {
             case "UP":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextUpLoc(), myMap, this));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextUpLoc(), myMap));
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanUpGif.gif"));
                 pacman.upManager(myMap);
                 break;
             case "DOWN":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextDownLoc(), myMap, this));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getLocationX(), pacman.getNextDownLoc(), myMap));
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanDownGif.gif"));
                 pacman.downManager(myMap);
                 break;
             case "RIGHT":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getNextRightLoc(), pacman.getLocationY(), myMap, this));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getNextRightLoc(), pacman.getLocationY(), myMap));
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanRightGif.gif"));
                 pacman.rightManager(myMap);
                 break;
             case "LEFT":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getNextLeftLoc(), pacman.getLocationY(), myMap, this));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getNextLeftLoc(), pacman.getLocationY(), myMap));
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanLeftGif.gif"));
                 pacman.leftManager(myMap);
                 break;
@@ -124,29 +124,60 @@ public class GamePanel extends JPanel implements Runnable {
                 ghostListOutSide.get(i).randomMovement(myMap);
             }
         }
-    public void becomeFood(){
+    public void becomeFood() {
         for (int i = 0; i < ghostListInside.size(); i++) {
             ghostListInside.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
         }
         for (int i = 0; i < ghostListOutSide.size(); i++) {
             ghostListOutSide.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
         }
-        new Timer(pacman.bigCoinTime, e->{
-            for (int i = 0; i < ghostListInside.size(); i++) {
-                ghostListInside.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
-            }
-            for (int i = 0; i < ghostListOutSide.size(); i++) {
-                ghostListOutSide.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
-            }
-        }).start();
     }
+    public void becomeNoFood() {
+        for (int i = 0; i < ghostListInside.size(); i++) {
+            ghostListInside.get(i).setImage(new ImageIcon("src/Pictures/Redy.jpg"));
+        }
+        for (int i = 0; i < ghostListOutSide.size(); i++) {
+            ghostListOutSide.get(i).setImage(new ImageIcon("src/Pictures/Redy.jpg"));
+        }
+    }
+    public boolean onSamePosition(Player p, Player p1){
+        return p.getX() == p1.getX() && p.getY() == p1.getY();
+    }
+
+    public void meetWithGhost() {
+        for (int i = 0; i < ghostListOutSide.size(); i++) {
+            if (onSamePosition(pacman, ghostListOutSide.get(i))) {
+                if (pacman.ateBigCoin) {
+                    ghostListOutSide.get(i).startPoint();
+                    ghostListOutSide.get(i).setImage(ghostListOutSide.get(i).srcImage);
+
+                } else {
+                    pacman.pacmanCaught(this);
+                }
+            }
+        }
+    }
+//        new Timer(pacman.bigCoinTime, e->{
+//            for (int i = 0; i < ghostListInside.size(); i++) {
+//                ghostListInside.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+//            }
+//            for (int i = 0; i < ghostListOutSide.size(); i++) {
+//                ghostListOutSide.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
+//            }
+//        }).start();
 
     @Override
     public void run() {
         while (pacman.getLives() > 0) {
             movePacman();
-            pacman.meetWithGhost(this);
+            meetWithGhost();
             repaint();
+            if (pacman.ateBigCoin){
+                becomeFood();
+            }
+            else {
+                becomeNoFood();
+            }
             randomAll();
             if (pacman.ateQuarter() &&  ghostQueueInside.peek() != null){
                 ghostListOutSide.add(ghostQueueInside.peek());

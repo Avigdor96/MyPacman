@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class Player extends GeneralElement implements Moveable {
-    protected int speed = 5;
+    protected int speed = 15;
     protected int startPointX;
     protected int startPointY;
     protected int locationX;
@@ -131,7 +131,7 @@ public void upManager(GeneralElement[][] myMap) {
         channelLeftManage(tempX, tempY, myMap);
     }
 
-    public boolean onSamePosition(Player p, Player p1){
-        return p.getX() == p1.getX() && p.getY() == p1.getY();
-    }
+//    public boolean onSamePosition(Player p, Player p1){
+//        return p.getX() == p1.getX() && p.getY() == p1.getY();
+//    }
 }
