@@ -6,34 +6,63 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class Player extends GeneralElement implements Moveable {
-    protected int speed = 15;
+    protected int speed = 5;
     protected int startPointX;
     protected int startPointY;
     protected int locationX;
     protected int locationY;
-//    protected int endX = locationX + size;
-//    protected int endY = locationY + size;
+//    protected int endXLoc;
+//    protected int endYLoc;
+//    protected int nextEndX;
+//    protected int nextEndY;
     protected int nextUpLoc;
     protected int nextDownLoc;
     protected int nextRightLoc;
     protected int nextLeftLoc;
-
+//    protected int endUpNext;
+//    protected int endDownNext;
+//    protected int endRightNext;
+////    protected int endLeftNext;
+    protected int endX;
+    protected int endY;
+    protected int mapX;
+    protected int mapY;
+    protected int nextEndXMap;
+    protected int nextEndYMap;
 
     public void startPoint(){
         setPoint(startPointX * size, startPointY * size);
     }
 
+    public boolean onFullX(){
+        return point.x % 25 == 0;
+    }
+
+    public boolean onFullY(){
+        return point.y % 25 == 0;
+    }
+
     public void setPoint(int x, int y) {
         point.x = x;
         point.y = y;
+        endX = x + (size -1);
+        endY = y + (size -1);
+        mapX = x / size;
+        mapY = y / size;
+        nextEndXMap = endX / size;
+        nextEndYMap = endY / size;
         locationY = point.y / size;
         locationX = point.x / size;
-//        endY = point.y / size;
-//        endX = point.x / size;
+//        endXLoc = (point.x + (size - 1)) / size;
+//        endYLoc = (locationY + (size -1)) / size;
         nextUpLoc = locationY  - 1;
+//        endUpNext = endYLoc - 1;
         nextDownLoc = locationY  + 1;
+//        endDownNext = endYLoc + 1;
         nextRightLoc = locationX  + 1;
+//        endRightNext = locationX + 1;
         nextLeftLoc =  locationX  - 1;
+//        endLeftNext = locationX - 1;
     }
 
 
@@ -64,6 +93,11 @@ public abstract class Player extends GeneralElement implements Moveable {
 
     public int getNextLeftLoc() {
         return nextLeftLoc;
+    }
+
+    public boolean canMove(GeneralElement[][] myMap){
+        return !(myMap[mapY][mapX] instanceof Block) && !(myMap[endY][endX] instanceof Block) &&
+                !(myMap[mapY][nextEndXMap] instanceof Block) && !(myMap[nextEndYMap][mapX] instanceof Block);
     }
 
 

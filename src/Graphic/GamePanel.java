@@ -186,7 +186,7 @@ public class GamePanel extends JPanel implements Runnable {
                 ghost.goOutGeneral();
             }
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
