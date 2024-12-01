@@ -36,20 +36,6 @@ public class Pacman extends Player {
         gamePanel.backHome();
     }
 
-//    public void meetWithGhost(GamePanel panel) {
-//        for (int i = 0; i < panel.ghostListOutSide.size(); i++) {
-//                if (onSamePosition(this, panel.ghostListOutSide.get(i))) {
-//                    if (ateBigCoin) {
-//                        panel.ghostListOutSide.get(i).startPoint();
-//                        panel.ghostListOutSide.get(i).setImage(panel.ghostListOutSide.get(i).srcImage);
-//
-//                    } else {
-//                        pacmanCaught(panel);
-//                    }
-//                }
-//            }
-//        }
-
     public void deathImageManage(){
         setImage(new ImageIcon("src/Pictures/PacmanDeath.gif"));
     }
@@ -62,17 +48,12 @@ public class Pacman extends Player {
             score += value;
             return value;
         }
-//        else if (map[y][x] instanceof BigCoin){
-//            int value = ((BigCoin) map[y][x]).getValue();
-//            map[y][x] = new Empty(x * size, y * size);
-//            score += value;
-//            panel.becomeFood();
-//            return value;
-//        }
         return 0;
     }
 
-
+    public void addScore(int score) {
+        this.score += score;
+    }
 
     public int getScore() {
         return score;
@@ -101,9 +82,9 @@ public class Pacman extends Player {
         }
         else if (value == 30){
             ateBigCoin = true;
-            new Timer(bigCoinTime, e-> {
-                ateBigCoin = false;
-            }).start();
+//            new Timer(bigCoinTime, e-> {
+//                ateBigCoin = false;
+//            }).start();
         }
     }
 

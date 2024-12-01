@@ -9,12 +9,11 @@ import java.util.Random;
 
 public class Ghost extends Player{
     protected int currentDirection = -1;
-    protected boolean eatable;
-    private int eatableTime = 5000;
-    public ImageIcon srcImage;
-    //protected ImageIcon srcImage;
+    protected ImageIcon srcImage;
+    public ImageIcon eatableImage = new ImageIcon("src/Pictures/GhostEatable.jpg");
 
     public Ghost() {
+        image = srcImage;
         setPoint(startPointX * size, startPointY * size);
         startPoint();
     }
@@ -22,39 +21,47 @@ public class Ghost extends Player{
     public void randomMovement(GeneralElement[][] map) {
         switch (currentDirection) {
             case 0:
-                if (canMoveUp(map)) {
-                    upManager(map);
+                if (this.canMoveAndUpdate(map, 0, -5)) {
+                    //upManager(map);
+                    this.updateAfterMove(0, - 5, map);
                 } else {
                     currentDirection = -1;
                 }
                 break;
             case 1:
-                if (canMoveDown(map)) {
-                    downManager(map);
+                if (this.canMoveAndUpdate(map, 0, 5)) {
+                    //downManager(map);
+                    this.updateAfterMove(0, 5, map);
                 } else {
                     currentDirection = -1;
                 }
                 break;
             case 2:
-                if (canMoveRight(map)) {
-                    rightManager(map);
+                if (this.canMoveAndUpdate(map, 5, 0)) {
+                    //rightManager(map);
+                    this.updateAfterMove(5, 0, map);
                 } else {
                     currentDirection = -1;
                 }
                 break;
             case 3:
-                if (canMoveLeft(map)) {
-                    leftManager(map);
+                if (this.canMoveAndUpdate(map, -5, 0)) {
+                    //leftManager(map);\
+                    this.updateAfterMove(-5, 0, map);
                 } else {
                     currentDirection = -1;
                 }
                 break;
             default:
                 ArrayList<Integer> directions = new ArrayList<>();
-                if (canMoveUp(map)) directions.add(0);
-                if (canMoveDown(map)) directions.add(1);
-                if (canMoveRight(map)) directions.add(2);
-                if (canMoveLeft(map)) directions.add(3);
+                //if (canMoveUp(map)) directions.add(0);
+                //if (canMoveDown(map)) directions.add(1);
+//                if (canMoveRight(map)) directions.add(2);
+//                if (canMoveLeft(map)) directions.add(3);
+                if (canMoveAndUpdate(map, 0, -5)) directions.add(0);
+                if (canMoveAndUpdate(map, 0, 5)) directions.add(1);
+                if (canMoveAndUpdate(map, 5, 0)) directions.add(2);
+                if (canMoveAndUpdate(map, -5, 0)) directions.add(3);
                 if (!directions.isEmpty()) {
                     Random random = new Random();
                     currentDirection = directions.get(random.nextInt(directions.size()));
@@ -63,26 +70,19 @@ public class Ghost extends Player{
         }
     }
 
+    public void backToSrc(){
+        this.image = srcImage;
+    }
+
+
+    public ImageIcon getSrcImage() {
+        return srcImage;
+    }
+
     public void goOutGeneral(){
         ((GhostInterface) this).goOut();
     }
 
-//    public void becomeFood(ArrayList<Ghost> in, ArrayList<Ghost> out){
-//        for (int i = 0; i < in.size(); i++) {
-//            in.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
-//        }
-//        for (int i = 0; i < out.size(); i++) {
-//            out.get(i).setImage(new ImageIcon("src/Pictures/GhostEatable.jpg"));
-//        }
-//        new Timer(eatableTime, e->{
-//            for (int i = 0; i < in.size(); i++) {
-//                in.get(i).setImage(srcImage);
-//            }
-//            for (int i = 0; i < out.size(); i++) {
-//                out.get(i).setImage(srcImage);
-//            }
-//        }).start();
-//    }
 
     //Create ghosts and adding to list inside
     public static void createGhostInside(ArrayList<Ghost> in){

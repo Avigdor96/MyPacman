@@ -1,7 +1,5 @@
 package Graphic;
 
-import Players.Pacman;
-
 import javax.swing.*;
 import java.awt.*;
 

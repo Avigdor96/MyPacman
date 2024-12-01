@@ -15,10 +15,10 @@ public class Purplish extends Ghost implements GhostInterface{
 
     @Override
     public void goOut() {
-        setPoint(getX() - speed, getY());
-        setPoint(getX() - speed, getY());
-        setPoint(getX(), getY() - speed);
-        setPoint(getX(), getY() - speed);
-        setPoint(getX() - speed, getY());
+        setPoint(getX() - size, getY());
+        setPoint(getX() - size, getY());
+        setPoint(getX(), getY() - size);
+        setPoint(getX(), getY() - size);
+        setPoint(getX() - size, getY());
     }
 }

@@ -18,6 +18,11 @@ public class Block extends GeneralElement{
     }
 
     @Override
+    public boolean canPath() {
+        return false;
+    }
+
+    @Override
     public Image getImage() {
         return image.getImage();
     }
