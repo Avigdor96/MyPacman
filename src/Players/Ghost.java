@@ -86,10 +86,10 @@ public class Ghost extends Player{
 
     //Create ghosts and adding to list inside
     public static void createGhostInside(ArrayList<Ghost> in){
-        Reddish reddish1 = new Reddish();
+        Blinky blinky = new Blinky();
         Bluish bluish1 = new Bluish();
         Purplish purplish1 = new Purplish();
-        in.add(reddish1);
+        in.add(blinky);
         in.add(bluish1);
         in.add(purplish1);
     }
