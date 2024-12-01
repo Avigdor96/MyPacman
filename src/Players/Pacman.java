@@ -13,7 +13,7 @@ public class Pacman extends Player {
     private int quartersEaten = 0;
     private int coinValue = 10;
     private int coinsEaten = 0;
-    public boolean ateBigCoin;
+    public boolean ateBigCoin = false;
     public int bigCoinTime = 8000;
     private int timeCaught = 4000;
 
@@ -75,13 +75,21 @@ public class Pacman extends Player {
         return signToOut;
     }
 
+    public boolean isAteBigCoin() {
+        return ateBigCoin;
+    }
+
+    public void setAteBigCoin(boolean ateBigCoin) {
+        this.ateBigCoin = ateBigCoin;
+    }
+
     //Counts how many regular coins pacman ate and update "Ate big coin" bool for a few seconds
     public void updateCoinsEaten(int value) {
         if (value == coinValue){
             coinsEaten++;
         }
         else if (value == 30){
-            ateBigCoin = true;
+            this.setAteBigCoin(true);
 //            new Timer(bigCoinTime, e-> {
 //                ateBigCoin = false;
 //            }).start();

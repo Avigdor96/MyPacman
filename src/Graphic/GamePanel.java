@@ -144,7 +144,7 @@ public class GamePanel extends JPanel implements Runnable {
         new Timer(pacman.bigCoinTime, e -> {
             becomeNoFood();
         }).start();
-        pacman.ateBigCoin = false;
+        pacman.setAteBigCoin(false);
     }
 
     //Returns ghost to source their image
@@ -168,6 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
         for (int i = 0; i < ghostListOutSide.size(); i++) {
             Ghost ghost = ghostListOutSide.get(i);
             if (onSamePosition(pacman, ghost)) {
+                System.out.println(pacman.ateBigCoin);
                 if (pacman.ateBigCoin) {
 //                    ghostListOutSide.get(i).backToSrc();
 //                    ghostListOutSide.get(i).startPoint();
@@ -178,7 +179,6 @@ public class GamePanel extends JPanel implements Runnable {
 
                 }else {
                     pacman.pacmanCaught(this);
-                    System.out.println("Caught");
                 }
             }
         }
