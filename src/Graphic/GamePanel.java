@@ -70,44 +70,38 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void movePacman() {
         if (keyControl.desiredDirection.equals("UP")) {
-            if (pacman.canMoveAndUpdate(myMap, 0, -5)) {
+            if (pacman.canMove(myMap, 0, - pacman.getSpeed())) {
                 keyControl.currentDirection = "UP";
             }
-        } else if (keyControl.desiredDirection.equals("DOWN") && pacman.canMoveAndUpdate(myMap, 0, 5)) {
+        } else if (keyControl.desiredDirection.equals("DOWN") && pacman.canMove(myMap, 0, pacman.getSpeed())) {
             keyControl.currentDirection = "DOWN";
-        } else if (keyControl.desiredDirection.equals("RIGHT") && pacman.canMoveAndUpdate(myMap, 5, 0)) {
+        } else if (keyControl.desiredDirection.equals("RIGHT") && pacman.canMove(myMap, pacman.getSpeed(), 0)) {
             keyControl.currentDirection = "RIGHT";
-        } else if (keyControl.desiredDirection.equals("LEFT") && pacman.canMoveAndUpdate(myMap, -5, 0)) {
+        } else if (keyControl.desiredDirection.equals("LEFT") && pacman.canMove(myMap, -pacman.getSpeed(), 0)) {
             keyControl.currentDirection = "LEFT";
         }
         switch (keyControl.currentDirection) {
             case "UP":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getX() / size, (pacman.getY() - 5) / size, myMap));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getX() / size, (pacman.getY() - pacman.getSpeed()) / size, myMap), this);
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanUpGif.gif"));
-                pacman.updateAfterMove(0, -5, myMap);
-                //pacman.upManager(myMap);
+                pacman.updateAfterMove(0, -pacman.getSpeed(), myMap);
                 break;
             case "DOWN":
-                pacman.updateCoinsEaten(pacman.eat(pacman.getX() / size, (pacman.getY() + 5) / size, myMap));
+                pacman.updateCoinsEaten(pacman.eat(pacman.getX() / size, (pacman.getY() + pacman.getSpeed()) / size, myMap), this);
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanDownGif.gif"));
-                pacman.updateAfterMove(0, 5, myMap);
-                //pacman.downManager(myMap);
+                pacman.updateAfterMove(0, pacman.getSpeed(), myMap);
                 break;
             case "RIGHT":
-                pacman.updateCoinsEaten(pacman.eat((pacman.getX() + 5) / size, pacman.getY() / size, myMap));
+                pacman.updateCoinsEaten(pacman.eat((pacman.getX() + pacman.getSpeed()) / size, pacman.getY() / size, myMap), this);
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanRightGif.gif"));
-                pacman.channelRightManage((pacman.getX() + 5) / size, pacman.getY() / size, myMap);
-                pacman.updateAfterMove(5, 0, myMap);
-
-                //pacman.rightManager(myMap);
+                pacman.channelRightManage((pacman.getX() + pacman.getSpeed()) / size, pacman.getY() / size, myMap);
+                pacman.updateAfterMove(pacman.getSpeed(), 0, myMap);
                 break;
             case "LEFT":
-                pacman.updateCoinsEaten(pacman.eat((pacman.getX() - 5) / size, pacman.getY() / size, myMap));
+                pacman.updateCoinsEaten(pacman.eat((pacman.getX() - pacman.getSpeed()) / size, pacman.getY() / size, myMap), this);
                 pacman.setImage(new ImageIcon("src/Pictures/PacmanLeftGif.gif"));
-                pacman.updateAfterMove(-5, 0, myMap);
-                pacman.channelLeftManage((pacman.getX() - 5) / size, pacman.getY() / size, myMap);
-
-                //pacman.leftManager(myMap);
+                pacman.updateAfterMove(-pacman.getSpeed(), 0, myMap);
+                pacman.channelLeftManage((pacman.getX() - pacman.getSpeed()) / size, pacman.getY() / size, myMap);
                 break;
         }
     }
@@ -141,10 +135,6 @@ public class GamePanel extends JPanel implements Runnable {
             for (int i = 0; i < ghostListOutSide.size(); i++) {
                 ghostListOutSide.get(i).setImage(ghostListOutSide.get(i).eatableImage);
             }
-        new Timer(pacman.bigCoinTime, e -> {
-            becomeNoFood();
-        }).start();
-        pacman.setAteBigCoin(false);
     }
 
     //Returns ghost to source their image
@@ -168,15 +158,14 @@ public class GamePanel extends JPanel implements Runnable {
         for (int i = 0; i < ghostListOutSide.size(); i++) {
             Ghost ghost = ghostListOutSide.get(i);
             if (onSamePosition(pacman, ghost)) {
-                System.out.println(pacman.ateBigCoin);
                 if (pacman.ateBigCoin) {
-//                    ghostListOutSide.get(i).backToSrc();
-//                    ghostListOutSide.get(i).startPoint();
                     ghost.startPoint();
                     ghost.backToSrc();
+                    ghostQueueInside.add(ghost);
+                    ghostListOutSide.remove(ghost);
+                    ghost.goOutGeneral();
+                    ghostListOutSide.add(ghost);
                     pacman.addScore(200);
-                    //ghostListOutSide.get(i).setImage(ghostListOutSide.get(i).getSrcImage());
-
                 }else {
                     pacman.pacmanCaught(this);
                 }
@@ -191,9 +180,6 @@ public class GamePanel extends JPanel implements Runnable {
             meetWithGhost();
             randomAll();
             repaint();
-            if (pacman.ateBigCoin){
-                becomeFood();
-            }
             if (pacman.ateQuarter() &&  ghostQueueInside.peek() != null){
                 ghostListOutSide.add(ghostQueueInside.peek());
                 ghostListInside.remove(ghostQueueInside.peek());

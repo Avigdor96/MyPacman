@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Ghost extends Player{
+    protected int speed = 5;
     protected int currentDirection = -1;
     protected ImageIcon srcImage;
     public ImageIcon eatableImage = new ImageIcon("src/Pictures/GhostEatable.jpg");
@@ -21,33 +22,33 @@ public class Ghost extends Player{
     public void randomMovement(GeneralElement[][] map) {
         switch (currentDirection) {
             case 0:
-                if (this.canMoveAndUpdate(map, 0, -5)) {
+                if (this.canMove(map, 0, -speed)) {
                     //upManager(map);
-                    this.updateAfterMove(0, - 5, map);
+                    this.updateAfterMove(0, - speed, map);
                 } else {
                     currentDirection = -1;
                 }
                 break;
             case 1:
-                if (this.canMoveAndUpdate(map, 0, 5)) {
+                if (this.canMove(map, 0, speed)) {
                     //downManager(map);
-                    this.updateAfterMove(0, 5, map);
+                    this.updateAfterMove(0, speed, map);
                 } else {
                     currentDirection = -1;
                 }
                 break;
             case 2:
-                if (this.canMoveAndUpdate(map, 5, 0)) {
+                if (this.canMove(map, speed, 0)) {
                     //rightManager(map);
-                    this.updateAfterMove(5, 0, map);
+                    this.updateAfterMove(speed, 0, map);
                 } else {
                     currentDirection = -1;
                 }
                 break;
             case 3:
-                if (this.canMoveAndUpdate(map, -5, 0)) {
+                if (this.canMove(map, -speed, 0)) {
                     //leftManager(map);\
-                    this.updateAfterMove(-5, 0, map);
+                    this.updateAfterMove(-speed, 0, map);
                 } else {
                     currentDirection = -1;
                 }
@@ -58,10 +59,10 @@ public class Ghost extends Player{
                 //if (canMoveDown(map)) directions.add(1);
 //                if (canMoveRight(map)) directions.add(2);
 //                if (canMoveLeft(map)) directions.add(3);
-                if (canMoveAndUpdate(map, 0, -5)) directions.add(0);
-                if (canMoveAndUpdate(map, 0, 5)) directions.add(1);
-                if (canMoveAndUpdate(map, 5, 0)) directions.add(2);
-                if (canMoveAndUpdate(map, -5, 0)) directions.add(3);
+                if (canMove(map, 0, -speed)) directions.add(0);
+                if (canMove(map, 0, speed)) directions.add(1);
+                if (canMove(map, speed, 0)) directions.add(2);
+                if (canMove(map, -speed, 0)) directions.add(3);
                 if (!directions.isEmpty()) {
                     Random random = new Random();
                     currentDirection = directions.get(random.nextInt(directions.size()));
@@ -71,7 +72,7 @@ public class Ghost extends Player{
     }
 
     public void backToSrc(){
-        this.image = srcImage;
+        setImage(srcImage);
     }
 
 
@@ -83,6 +84,13 @@ public class Ghost extends Player{
         ((GhostInterface) this).goOut();
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 
     //Create ghosts and adding to list inside
     public static void createGhostInside(ArrayList<Ghost> in){

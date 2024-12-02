@@ -3,8 +3,6 @@ package Main;
 import Graphic.GameFrame;
 import Graphic.StartScreen;
 
-import javax.swing.*;
-
 public class Main {
     public static void main(String[] args) {
         GameFrame gameFrame = new GameFrame();
@@ -13,5 +11,6 @@ public class Main {
 //        frame.setSize(435, 515 + 25);
 //        frame.add(new StartScreen(frame));
 //        frame.setVisible(true);
+
     }
     }

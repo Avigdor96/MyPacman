@@ -16,6 +16,7 @@ public abstract class Player extends GeneralElement implements Moveable {
 //    protected int nextRightLoc;
 //    protected int nextLeftLoc;
 
+
     public void startPoint(){
         setPoint(startPointX * size, startPointY * size);
     }
@@ -38,7 +39,7 @@ public abstract class Player extends GeneralElement implements Moveable {
         this.image = image;
     }
 
-    public boolean canMoveAndUpdate(GeneralElement[][] myMap, int plusX, int plusY) {
+    public boolean canMove(GeneralElement[][] myMap, int plusX, int plusY) {
         int startX = point.x + plusX;
         int startY = point.y + plusY;
         int endX = startX + (size - 1);

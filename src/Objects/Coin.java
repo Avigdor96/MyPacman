@@ -12,11 +12,6 @@ public class Coin extends GeneralElement implements Eatable{
         image = new ImageIcon("src/Pictures/Coin.jpg");
     }
 
-//    public void setValue(int value) {
-//        this.value = value;
-//    }
-
-
     @Override
     public void setPoint(int x, int y) {
         point.x = x;
