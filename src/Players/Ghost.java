@@ -1,5 +1,6 @@
 package Players;
 
+import Graphic.GamePanel;
 import Maps.MapLevel1;
 import Objects.GeneralElement;
 //import Objects.Speed;
@@ -108,6 +109,7 @@ public class Ghost extends Player{
         this.speed = speed;
     }
 
+<<<<<<< HEAD
     public void waite3SecondsAndGo() {
         if (needToGoAfter3sec && exitTimer == null) {
             move = false;
@@ -122,6 +124,14 @@ public class Ghost extends Player{
             exitTimer.start();
 //            setNeedToGoAfter3sec(false);
 //            goOutGeneral();
+=======
+    public void waite3SecondsAndGo() throws InterruptedException {
+        if (needToGoAfter3sec) {
+            new Timer(3000, e -> {
+                setNeedToGoAfter3sec(false);
+                goOutGeneral();
+            }).start();
+>>>>>>> d81b7cf1d2252ed75afd34cfabe37a7844163af5
         }
 
     }
