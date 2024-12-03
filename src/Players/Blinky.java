@@ -21,4 +21,17 @@ public class Blinky extends Ghost implements GhostInterface{
         setPoint(getX(), getY() - size);
         setPoint(getX() + size, getY());
     }
+
+    public int chooseDirectionToPacman(Pacman pacman){
+        int pacmanX = pacman.getX();
+        int pacmanY = pacman.getY();
+
+    }
+
+    public int calculateDirection(int pacmanX, int pacmanY){
+        int direction = -1;
+        if (Math.abs(this.getX() - pacmanX) > Math.abs(this.getY() - pacmanY)){
+            if (this.getX() < pacmanX && c)
+        }
+    }
 }
