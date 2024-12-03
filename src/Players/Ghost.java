@@ -16,13 +16,15 @@ public class Ghost extends Player{
     protected MapLevel1 mapLevel1;
     protected boolean food;
     protected boolean needToGoAfter3sec;
-    Thread thread;
+    protected boolean move;
+    protected Timer exitTimer;
 
     public Ghost() {
         this.mapLevel1 = new MapLevel1();
         image = srcImage;
         setPoint(startPointX * size, startPointY * size);
         startPoint();
+        move = true;
     }
 
     public void randomMovement(GeneralElement[][] map) {
@@ -78,6 +80,14 @@ public class Ghost extends Player{
         return srcImage;
     }
 
+    public boolean isMove() {
+        return move;
+    }
+
+    public void setMove(boolean move) {
+        this.move = move;
+    }
+
     public void goOutGeneral(){
         ((GhostInterface) this).goOut();
     }
@@ -98,11 +108,20 @@ public class Ghost extends Player{
         this.speed = speed;
     }
 
-    public void waite3SecondsAndGo() throws InterruptedException {
-        if (needToGoAfter3sec) {
-            thread.sleep(3000);
-            setNeedToGoAfter3sec(false);
-            goOutGeneral();
+    public void waite3SecondsAndGo() {
+        if (needToGoAfter3sec && exitTimer == null) {
+            move = false;
+            exitTimer = new Timer(3000, e -> {
+                setNeedToGoAfter3sec(false);
+                goOutGeneral();
+                move = true;
+                exitTimer.stop();
+                exitTimer = null;
+            });
+            exitTimer.setRepeats(false);
+            exitTimer.start();
+//            setNeedToGoAfter3sec(false);
+//            goOutGeneral();
         }
 
     }

@@ -124,8 +124,10 @@ public class GamePanel extends JPanel implements Runnable {
     //Moves the ghosts outside randomly
     public void randomAll() {
         for (int i = 0; i < ghostListOutSide.size(); i++) {
+            if (ghostListOutSide.get(i).isMove()) {
                 ghostListOutSide.get(i).randomMovement(myMap);
             }
+        }
         }
 
     //Makes ghosts to eatable and sets their image to blue
@@ -199,26 +201,27 @@ public class GamePanel extends JPanel implements Runnable {
 //            }
 //        }
 //    }
-    public void goAfter() throws InterruptedException {
-        if (!toGoAfter3Sec.isEmpty()){
-            for (Ghost ghost : toGoAfter3Sec) {
-                ghost.waite3SecondsAndGo();
-                //ghost.setNeedToGoAfter3sec(false);
-            }
-        }
-    }
+//    public void goAfter(){
+//        if (!toGoAfter3Sec.isEmpty()){
+//            for (Ghost ghost : toGoAfter3Sec) {
+//                ghost.waite3SecondsAndGo();
+//                //ghost.setNeedToGoAfter3sec(false);
+//            }
+//        }
+//    }
 
     public void meetWithGhost(){
         for (Ghost ghost : allGhosts) {
             if (pacman.onSamePosition(ghost)) {
                 if (ghost.isFood()) {
+                    ghost.setFood(false);
                     pacman.addScore(200);
                     ghost.startPoint();
                     ghost.backToSrc();
-                    ghostListOutSide.remove(ghost);
-                    //ghost.waite3SecondsAndGo();
                     ghost.setNeedToGoAfter3sec(true);
-                    toGoAfter3Sec.add(ghost);
+                    ghost.waite3SecondsAndGo();
+                    //ghostListOutSide.remove(ghost);
+                    //ghostListOutSide.add(ghost);
                 }
                 else{
                     pacman.pacmanCaught(this);
@@ -231,16 +234,16 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while (pacman.getLives() > 0) {
-            System.out.println(pacman.getLives());
             randomAll();
             movePacman();
-            meetWithGhost();
-            try {
-                goAfter();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+
+//            try {
+//                //goAfter();
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
             repaint();
+            meetWithGhost();
             if (pacman.ateQuarter() &&  ghostQueueInside.peek() != null){
                 ghostListOutSide.add(ghostQueueInside.peek());
                 ghostListInside.remove(ghostQueueInside.peek());
