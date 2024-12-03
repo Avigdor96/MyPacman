@@ -11,11 +11,6 @@ public abstract class Player extends GeneralElement implements Moveable {
     protected int startPointY;
     protected int locationX;
     protected int locationY;
-//    protected int nextUpLoc;
-//    protected int nextDownLoc;
-//    protected int nextRightLoc;
-//    protected int nextLeftLoc;
-
 
     public void startPoint(){
         setPoint(startPointX * size, startPointY * size);
@@ -25,8 +20,6 @@ public abstract class Player extends GeneralElement implements Moveable {
     public void setPoint(int x, int y) {
         point.x = x;
         point.y = y;
-//        locationY = point.y / size;
-//        locationX = point.x / size;
     }
 
 
@@ -53,11 +46,6 @@ public abstract class Player extends GeneralElement implements Moveable {
                 && (myMap[mapBottom][mapLeft].canPath())
                 && myMap[mapTop][mapRight].canPath()
                 && myMap[mapBottom][mapRight].canPath()) {
-//            point.x += plusX;
-//            point.y += plusY;
-//            locationY = point.y / size;
-//            locationX = point.x / size;
-
             return true;
         }
         return false;
@@ -82,53 +70,9 @@ public abstract class Player extends GeneralElement implements Moveable {
         }
     }
 
-
-//    public boolean canMoveLeft(GeneralElement[][] myMap) {
-//        return !(myMap[locationY][nextLeftLoc] instanceof Block);
-//    }
-//
-//    public boolean canMoveRight(GeneralElement[][] myMap) {
-//        return !(myMap[locationY][nextRightLoc] instanceof Block);
-//    }
-//
-//    public boolean canMoveDown(GeneralElement[][] myMap) {
-//        return !(myMap[nextDownLoc][locationX] instanceof Block);
-//    }
-//
-//    public boolean canMoveUp(GeneralElement[][] myMap){
-//        return !((myMap[nextUpLoc][locationX]) instanceof Block);
-//    }
-
-
     public Image getImage() {
         return image.getImage();
     }
-
-//public void upManager(GeneralElement[][] myMap) {
-//    int tempY = this.getNextUpLoc();
-//    int tempX = this.getLocationX();
-//    if (this.canMoveUp(myMap)) {
-//        this.setPoint(this.getX(), this.getY() - speed);
-//    }
-//}
-
-//    public void downManager(GeneralElement[][] myMap){
-//        int tempY = this.getNextDownLoc();
-//        int tempX = this.getLocationX();
-//        if (this.canMoveDown(myMap)) {
-//            this.setPoint(this.getX(), this.getY() + speed);
-//        }
-//
-//    }
-
-//    public void rightManager(GeneralElement[][] myMap) {
-//        int tempY = getLocationY();
-//        int tempX = getNextRightLoc();
-//        if (canMoveRight(myMap)) {
-//            setPoint(getX() + speed, getY());
-//        }
-//        channelRightManage(tempX, tempY, myMap);
-//    }
 
     public void channelLeftManage(int x, int y, GeneralElement[][] map){
         if (map[y][x] instanceof Channel) this.setPoint((map[0].length - 1) * size, getY());
@@ -138,5 +82,11 @@ public abstract class Player extends GeneralElement implements Moveable {
         if (map[y][x] instanceof Channel){
             this.setPoint(15, getY());
         }
+    }
+
+    //Checks if two players are meet
+    public boolean onSamePosition(Player p1) {
+        Rectangle rectangle2 = new Rectangle(p1.getX(), p1.getY(), p1.size ,p1.size);
+        return new Rectangle(getX(), getY(),size, size).intersects(rectangle2);
     }
 }

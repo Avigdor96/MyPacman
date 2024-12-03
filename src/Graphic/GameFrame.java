@@ -7,8 +7,8 @@ public class GameFrame extends JFrame {
     public GameFrame() {
         GamePanel gamePanel = new GamePanel();
         this.setLayout(new BorderLayout());
-        TopPanel topPanel = new TopPanel(gamePanel.pacman);
-        BottomPanel bottomPanel = new BottomPanel(gamePanel.pacman);
+        TopPanel topPanel = new TopPanel(gamePanel.getPacman());
+        BottomPanel bottomPanel = new BottomPanel(gamePanel.getPacman());
         //bottomPanel.setPreferredSize(new Dimension(0, 50));
         bottomPanel.setPreferredSize(new Dimension(0, 25));
         this.add(topPanel, BorderLayout.NORTH);

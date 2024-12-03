@@ -4,10 +4,11 @@ import Graphic.GamePanel;
 import Objects.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Pacman extends Player {
-    private int speed = 3;
+    private int speed = 5;
     public int score = 0;
     private int lives = 3;
     private final int quarterCoins = 59;

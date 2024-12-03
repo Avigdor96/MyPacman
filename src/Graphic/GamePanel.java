@@ -11,21 +11,30 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class GamePanel extends JPanel implements Runnable {
-    final int size = 15; // final size of all elements
-    Pinky pinky = new Pinky();
-    public Queue<Ghost> ghostQueueInside = new LinkedList<>();
-    public ArrayList<Ghost> ghostListInside = new ArrayList<>();
-    public ArrayList<Ghost> ghostListOutSide = new ArrayList<>();
-    Pacman pacman = new Pacman(size);
-    MapLevel1 mapLevel1 = new MapLevel1();
-    GeneralElement[][] myMap = mapLevel1.ElementMap();
-    public KeyControl keyControl = new KeyControl();
+    final private int size = 15; // final size of all elements
+    private Pinky pinky = new Pinky();
+    ArrayList<Ghost> toGoAfter3Sec = new ArrayList<>();
+    private Queue<Ghost> ghostQueueInside = new LinkedList<>();
+    private ArrayList<Ghost> ghostListInside = new ArrayList<>();
+    private ArrayList<Ghost> ghostListOutSide = new ArrayList<>();
+    private ArrayList<Ghost> allGhosts = new ArrayList<>();
+    private Pacman pacman = new Pacman(size);
+    private static MapLevel1 mapLevel1 = new MapLevel1();
+    private static GeneralElement[][] myMap = mapLevel1.ElementMap();
+    private static KeyControl keyControl = new KeyControl();
     Thread threadGame;
+
+    public Pacman getPacman() {
+        return pacman;
+    }
 
     public GamePanel() {
         this.addKeyListener(keyControl);
         ghostListOutSide.add(pinky);
-        Ghost.createGhostInside(ghostListInside);
+        allGhosts.add(pinky);
+        //Ghost.createGhostInside(ghostListInside);
+        ghostListInside = Ghost.createGhostInside();
+        allGhosts.addAll(ghostListInside);
         addInsideQueue();
         this.setFocusable(true);
         threadGame = new Thread(this);
@@ -40,9 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
                 g.drawImage(myMap[i][j].getImage(), myMap[i][j].getX(), myMap[i][j].getY(), size, size, this);
             }
         }
-        drawListInside(g);
-        drawGhostOutside(g);
-        g.drawImage(pacman.getImage(), pacman.getX(), pacman.getY(), size, size, this);
+        drawAllGhosts(g);    //Draw all ghosts from "allGhosts" list
+        g.drawImage(pacman.getImage(), pacman.getX(), pacman.getY(), size, size, this);//Draw pacman
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -55,18 +63,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void drawListInside(Graphics g) {
-        for (int i = 0; i < ghostListInside.size(); i++) {
-            g.drawImage(ghostListInside.get(i).getImage(), ghostListInside.get(i).getX(), ghostListInside.get(i).getY(), size, size, this);
+    public void drawAllGhosts(Graphics g){
+        for (Ghost ghost : allGhosts) {
+            g.drawImage(ghost.getImage(), ghost.getX(), ghost.getY(), size, size, this);
         }
     }
-
-    public void drawGhostOutside(Graphics g) {
-        for (int i = 0; i < ghostListOutSide.size(); i++) {
-            g.drawImage(ghostListOutSide.get(i).getImage(), ghostListOutSide.get(i).getX(), ghostListOutSide.get(i).getY(), size, size, this);
-        }
-    }
-
 
     public void movePacman() {
         if (keyControl.desiredDirection.equals("UP")) {
@@ -123,62 +124,122 @@ public class GamePanel extends JPanel implements Runnable {
     //Moves the ghosts outside randomly
     public void randomAll() {
         for (int i = 0; i < ghostListOutSide.size(); i++) {
-            ghostListOutSide.get(i).randomMovement(myMap);
+                ghostListOutSide.get(i).randomMovement(myMap);
+            }
         }
-    }
 
     //Makes ghosts to eatable and sets their image to blue
     public void becomeFood() {
-            for (int i = 0; i < ghostListInside.size(); i++) {
-                ghostListInside.get(i).setImage(ghostListInside.get(i).eatableImage);
-            }
-            for (int i = 0; i < ghostListOutSide.size(); i++) {
-                ghostListOutSide.get(i).setImage(ghostListOutSide.get(i).eatableImage);
-            }
+        for (Ghost ghost : allGhosts) {
+            ghost.setImage(ghost.eatableImage);
+            ghost.setFood(true);
+        }
     }
 
     //Returns ghost to source their image
     public void becomeNoFood() {
-        for (int i = 0; i < ghostListInside.size(); i++) {
-            ghostListInside.get(i).backToSrc();
-        }
-        for (int i = 0; i < ghostListOutSide.size(); i++) {
-            ghostListOutSide.get(i).backToSrc();
+        for (Ghost ghost : allGhosts) {
+            ghost.backToSrc();
+            ghost.setFood(false);
         }
     }
 
-    //Checks if two players are meet
-    public boolean onSamePosition(Player p, Player p1) {
-        Rectangle rectangle1 = new Rectangle(p.getX(), p.getY(), size, size);
-        Rectangle rectangle2 = new Rectangle(p1.getX(), p1.getY(), size ,size);
-        return rectangle1.intersects(rectangle2);
-    }
+//    public void meetWithGhost(){
+//        for (Ghost ghost : allGhosts) {
+//            if (ghost.isFood()){
+//                pacman.addScore(200);
+//                ghostListOutSide.remove(ghost);
+//                ghost.backToSrc();
+//                ghost.startPoint();
+//                ghost.setFood(false);
+//                new Timer(3000, e -> {
+//                    ghost.goOutGeneral();
+//                    ghostListOutSide.add(ghost);
+//                }).start();
+//            }
+//            else {
+//                pacman.pacmanCaught(this);
+//
+//            }
+//        }
+//    }
+//    public void meetWithGhost(){
+//        for (Ghost ghost : allGhosts) {
+//            if (pacman.onSamePosition(ghost)){
+//                if (pacman.ateBigCoin){
+//                    pacman.addScore(200);
+//                    ghostListOutSide.remove(ghost);
+//                    ghost.backToSrc();
+//                    ghost.startPoint();
+//                    new Timer(3000, e->{
+//                        ghost.goOutGeneral();
+//                        ghostListOutSide.add(ghost);
+//                    }).start();
+//                }
+//                else {
+//                    pacman.pacmanCaught(this);
+//                }
+//            }
+//        }
+//    }
 
-    public void meetWithGhost() {
-        for (int i = 0; i < ghostListOutSide.size(); i++) {
-            Ghost ghost = ghostListOutSide.get(i);
-            if (onSamePosition(pacman, ghost)) {
-                if (pacman.ateBigCoin) {
-                    ghost.startPoint();
-                    ghost.backToSrc();
-                    ghostQueueInside.add(ghost);
-                    ghostListOutSide.remove(ghost);
-                    ghost.goOutGeneral();
-                    ghostListOutSide.add(ghost);
-                    pacman.addScore(200);
-                }else {
-                    pacman.pacmanCaught(this);
-                }
+//    public void meetWithGhost() {
+//        for (int i = 0; i < ghostListOutSide.size(); i++) {
+//            Ghost ghost = ghostListOutSide.get(i);
+//            if (pacman.onSamePosition(ghost)) {
+//                if (pacman.ateBigCoin) {
+//                    pacman.addScore(200);
+//                    ghostListOutSide.remove(ghost);
+//                    ghost.backToSrc();
+//                    ghost.startPoint();
+//
+//                } else {
+//                    pacman.pacmanCaught(this);
+//                }
+//            }
+//        }
+//    }
+    public void goAfter() throws InterruptedException {
+        if (!toGoAfter3Sec.isEmpty()){
+            for (Ghost ghost : toGoAfter3Sec) {
+                ghost.waite3SecondsAndGo();
+                //ghost.setNeedToGoAfter3sec(false);
             }
         }
+    }
+
+    public void meetWithGhost(){
+        for (Ghost ghost : allGhosts) {
+            if (pacman.onSamePosition(ghost)) {
+                if (ghost.isFood()) {
+                    pacman.addScore(200);
+                    ghost.startPoint();
+                    ghost.backToSrc();
+                    ghostListOutSide.remove(ghost);
+                    //ghost.waite3SecondsAndGo();
+                    ghost.setNeedToGoAfter3sec(true);
+                    toGoAfter3Sec.add(ghost);
+                }
+                else{
+                    pacman.pacmanCaught(this);
+            }
+            }
+        }
+
     }
 
     @Override
     public void run() {
         while (pacman.getLives() > 0) {
+            System.out.println(pacman.getLives());
+            randomAll();
             movePacman();
             meetWithGhost();
-            randomAll();
+            try {
+                goAfter();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             repaint();
             if (pacman.ateQuarter() &&  ghostQueueInside.peek() != null){
                 ghostListOutSide.add(ghostQueueInside.peek());
@@ -192,5 +253,6 @@ public class GamePanel extends JPanel implements Runnable {
                 throw new RuntimeException(e);
             }
         }
+        System.exit(0);
     }
 }
