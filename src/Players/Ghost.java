@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Ghost extends Player{
+public class Ghost extends Player {
     protected int speed = 4;
     protected int currentDirection = -1;
     protected ImageIcon srcImage;
@@ -28,11 +28,22 @@ public class Ghost extends Player{
         move = true;
     }
 
+    public static ArrayList<Ghost> createGhostInside() {
+        ArrayList<Ghost> in = new ArrayList<>();
+        Blinky blinky = new Blinky();
+        Bluish bluish1 = new Bluish();
+        Purplish purplish1 = new Purplish();
+        in.add(blinky);
+        in.add(bluish1);
+        in.add(purplish1);
+        return in;
+    }
+
     public void randomMovement(GeneralElement[][] map) {
         switch (currentDirection) {
             case 0:
                 if (this.canMove(map, 0, -speed)) {
-                    this.updateAfterMove(0, - speed, map);
+                    this.updateAfterMove(0, -speed, map);
                 } else {
                     currentDirection = -1;
                 }
@@ -72,7 +83,7 @@ public class Ghost extends Player{
         }
     }
 
-    public void backToSrc(){
+    public void backToSrc() {
         setImage(srcImage);
     }
 
@@ -89,7 +100,7 @@ public class Ghost extends Player{
         this.move = move;
     }
 
-    public void goOutGeneral(){
+    public void goOutGeneral() {
         ((GhostInterface) this).goOut();
     }
 
@@ -109,7 +120,10 @@ public class Ghost extends Player{
         this.speed = speed;
     }
 
-<<<<<<< HEAD
+    public void setNeedToGoAfter3sec(boolean needToGoAfter3sec) {
+        this.needToGoAfter3sec = needToGoAfter3sec;
+    }
+
     public void waite3SecondsAndGo() {
         if (needToGoAfter3sec && exitTimer == null) {
             move = false;
@@ -124,35 +138,23 @@ public class Ghost extends Player{
             exitTimer.start();
 //            setNeedToGoAfter3sec(false);
 //            goOutGeneral();
-=======
-    public void waite3SecondsAndGo() throws InterruptedException {
-        if (needToGoAfter3sec) {
-            new Timer(3000, e -> {
-                setNeedToGoAfter3sec(false);
-                goOutGeneral();
-            }).start();
->>>>>>> d81b7cf1d2252ed75afd34cfabe37a7844163af5
         }
 
-    }
+//            public void waite3SecondsAndGo () {
+//                if (needToGoAfter3sec) {
+//                    new Timer(3000, e -> {
+//                        setNeedToGoAfter3sec(false);
+//                        goOutGeneral();
+//                    }).start();
+//                }
+//            }
+//
+//            public boolean isNeedToGoAfter3sec () {
+//                return needToGoAfter3sec;
+//            }
+        //Create ghosts and adding to list inside
 
-    public boolean isNeedToGoAfter3sec() {
-        return needToGoAfter3sec;
-    }
 
-    public void setNeedToGoAfter3sec(boolean needToGoAfter3sec) {
-        this.needToGoAfter3sec = needToGoAfter3sec;
-    }
 
-    //Create ghosts and adding to list inside
-    public static ArrayList<Ghost> createGhostInside(){
-        ArrayList<Ghost> in = new ArrayList<>();
-        Blinky blinky = new Blinky();
-        Bluish bluish1 = new Bluish();
-        Purplish purplish1 = new Purplish();
-        in.add(blinky);
-        in.add(bluish1);
-        in.add(purplish1);
-        return in;
-    }
+        }
 }
