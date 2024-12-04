@@ -13,6 +13,7 @@ import java.util.Queue;
 
 public class GamePanel extends JPanel implements Runnable {
     final private int size = 15; // final size of all elements
+    //final private int size = 20;
     private Pinky pinky = new Pinky();
     ArrayList<Ghost> toGoAfter3Sec = new ArrayList<>();
     private Queue<Ghost> ghostQueueInside = new LinkedList<>();
@@ -92,11 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void randomAll() {
         for (int i = 0; i < ghostListOutSide.size(); i++) {
             if (ghostListOutSide.get(i).isMove()) {
-//                if (ghostListOutSide.get(i) instanceof Blinky) {
-//                    ((Blinky) ghostListOutSide.get(i)).chasePacman(pacman.getX(), pacman.getY(),myMap);
-//                } else {
                     ghostListOutSide.get(i).randomMovement1(myMap);
-//                }
             }
         }
     }

@@ -17,10 +17,8 @@ public class GameFrame extends JFrame {
         gamePanel.setVisible(true);
         gamePanel.setDoubleBuffered(true);
         this.setSize(435, 515 + 25);
+        //this.setSize(580, 620);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //this.getContentPane().setBackground(Color.BLACK);
-//        setFocusable(true);
-//        requestFocusInWindow();
         this.setVisible(true);
     }
 }

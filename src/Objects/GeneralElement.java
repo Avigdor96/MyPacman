@@ -6,6 +6,7 @@ import java.awt.*;
 public abstract class GeneralElement implements Element{
     protected Point point = new Point();
     protected ImageIcon image;
+    //protected int size = 20;
     protected int size = 15;
 
 

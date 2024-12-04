@@ -37,10 +37,10 @@ public class StartScreen extends JFrame {
     }
 
 
-    public static void main(String[] args) {
-        StartScreen startScreen = new StartScreen();
-        startScreen.setVisible(true);
-        System.out.println("bla");
-    }
+//    public static void main(String[] args) {
+//        StartScreen startScreen = new StartScreen();
+//        startScreen.setVisible(true);
+//        System.out.println("bla");
+//    }
 }
 

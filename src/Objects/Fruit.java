@@ -1,5 +1,7 @@
 package Objects;
 
+import Maps.MapLevel1;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ public class Fruit extends GeneralElement implements Eatable {
     private String imagePath;
     private int secOnScreen;
     private boolean onScreen;
+    private MapLevel1 mapLevel1;
+
 
     public Fruit(int x, int y, int size, String path, int val, int sec) {
         imagePath = path;
