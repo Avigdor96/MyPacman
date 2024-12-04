@@ -1,6 +1,7 @@
 package Graphic;
 
 import Maps.MapLevel1;
+import Objects.Block;
 import Objects.GeneralElement;
 import Players.*;
 
@@ -91,10 +92,14 @@ public class GamePanel extends JPanel implements Runnable {
     public void randomAll() {
         for (int i = 0; i < ghostListOutSide.size(); i++) {
             if (ghostListOutSide.get(i).isMove()) {
+//                if (ghostListOutSide.get(i) instanceof Blinky) {
+//                    ((Blinky) ghostListOutSide.get(i)).chasePacman(pacman.getX(), pacman.getY(),myMap);
+//                } else {
                     ghostListOutSide.get(i).randomMovement1(myMap);
-                }
+//                }
             }
         }
+    }
 
     //Makes ghosts to eatable and sets their image to blue
     public void becomeFood() {
