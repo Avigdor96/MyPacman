@@ -2,13 +2,20 @@ package Objects;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-public class Fruit extends GeneralElement implements Eatable{
+public class Fruit extends GeneralElement implements Eatable {
     private int value;
+    private String imagePath;
+    private int secOnScreen;
+    private boolean onScreen;
 
-    public Fruit(int x, int y) {
+    public Fruit(int x, int y, int size, String path, int val, int sec) {
+        imagePath = path;
         setPoint(x, y);
-        image = new ImageIcon("src/Pictures/Fruit.jpg");
+        image = new ImageIcon(imagePath);
+        value = val;
+        secOnScreen = sec;
     }
 
     @Override
@@ -33,5 +40,4 @@ public class Fruit extends GeneralElement implements Eatable{
     public void setImage(ImageIcon image) {
         this.image = image;
     }
-
 }

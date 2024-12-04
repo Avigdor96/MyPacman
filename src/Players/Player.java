@@ -41,7 +41,6 @@ public abstract class Player extends GeneralElement implements Moveable {
         int mapRight = endX / size;
         int mapTop = startY / size;
         int mapBottom = endY / size;
-
         if((myMap[mapTop][mapLeft].canPath())
                 && (myMap[mapBottom][mapLeft].canPath())
                 && myMap[mapTop][mapRight].canPath()

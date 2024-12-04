@@ -17,6 +17,22 @@ public class KeyControl implements KeyListener {
 
     }
 
+    public String getCurrentDirection() {
+        return currentDirection;
+    }
+
+    public void setCurrentDirection(String currentDirection) {
+        this.currentDirection = currentDirection;
+    }
+
+    public String getDesiredDirection() {
+        return desiredDirection;
+    }
+
+    public void setDesiredDirection(String desiredDirection) {
+        this.desiredDirection = desiredDirection;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();

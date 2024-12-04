@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Ghost extends Player {
-    protected int speed = 4;
+    protected int speed = 1;
     protected int currentDirection = -1;
     protected ImageIcon srcImage;
     public ImageIcon eatableImage = new ImageIcon("src/Pictures/GhostEatable.jpg");
@@ -39,46 +39,37 @@ public class Ghost extends Player {
         return in;
     }
 
-    public void randomMovement(GeneralElement[][] map) {
+    public void randomMovement1(GeneralElement[][] map){
+        boolean canContinue = false;
+        Random random = new Random();
         switch (currentDirection) {
+            case 0: canContinue = canMove(map, 0, -speed); break;
+            case 1: canContinue = canMove(map, 0, speed); break;
+            case 2: canContinue = canMove(map, speed , 0 ); break;
+            case 3: canContinue = canMove(map, -speed , 0 ); break;
+        }
+        ArrayList<Integer> directions = new ArrayList<>();
+            if (canMove(map, 0, -speed)) directions.add(0); // up
+            if (canMove(map, 0, speed)) directions.add(1);  //down
+            if (canMove(map, speed, 0)) directions.add(2);  // right
+            if (canMove(map, -speed, 0)) directions.add(3); // left
+
+        if ((!canContinue || (canContinue && directions.size() > 2))){
+            currentDirection = directions.get(random.nextInt(directions.size()));
+        }
+
+        switch (currentDirection){
             case 0:
-                if (this.canMove(map, 0, -speed)) {
-                    this.updateAfterMove(0, -speed, map);
-                } else {
-                    currentDirection = -1;
-                }
+                this.updateAfterMove(0, -speed, map);
                 break;
             case 1:
-                if (this.canMove(map, 0, speed)) {
-                    this.updateAfterMove(0, speed, map);
-                } else {
-                    currentDirection = -1;
-                }
+                this.updateAfterMove(0, speed, map);
                 break;
             case 2:
-                if (this.canMove(map, speed, 0)) {
-                    this.updateAfterMove(speed, 0, map);
-                } else {
-                    currentDirection = -1;
-                }
+                this.updateAfterMove(speed, 0, map);
                 break;
             case 3:
-                if (this.canMove(map, -speed, 0)) {
-                    this.updateAfterMove(-speed, 0, map);
-                } else {
-                    currentDirection = -1;
-                }
-                break;
-            default:
-                ArrayList<Integer> directions = new ArrayList<>();
-                if (canMove(map, 0, -speed)) directions.add(0);
-                if (canMove(map, 0, speed)) directions.add(1);
-                if (canMove(map, speed, 0)) directions.add(2);
-                if (canMove(map, -speed, 0)) directions.add(3);
-                if (!directions.isEmpty()) {
-                    Random random = new Random();
-                    currentDirection = directions.get(random.nextInt(directions.size()));
-                }
+                this.updateAfterMove(-speed, 0, map);
                 break;
         }
     }
@@ -100,7 +91,7 @@ public class Ghost extends Player {
         this.move = move;
     }
 
-    public void goOutGeneral() {
+    public void goOut() {
         ((GhostInterface) this).goOut();
     }
 
@@ -129,32 +120,13 @@ public class Ghost extends Player {
             move = false;
             exitTimer = new Timer(3000, e -> {
                 setNeedToGoAfter3sec(false);
-                goOutGeneral();
+                goOut();
                 move = true;
                 exitTimer.stop();
                 exitTimer = null;
             });
             exitTimer.setRepeats(false);
             exitTimer.start();
-//            setNeedToGoAfter3sec(false);
-//            goOutGeneral();
         }
-
-//            public void waite3SecondsAndGo () {
-//                if (needToGoAfter3sec) {
-//                    new Timer(3000, e -> {
-//                        setNeedToGoAfter3sec(false);
-//                        goOutGeneral();
-//                    }).start();
-//                }
-//            }
-//
-//            public boolean isNeedToGoAfter3sec () {
-//                return needToGoAfter3sec;
-//            }
-        //Create ghosts and adding to list inside
-
-
-
         }
 }

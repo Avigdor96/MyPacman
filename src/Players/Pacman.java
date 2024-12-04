@@ -1,6 +1,8 @@
 package Players;
 
 import Graphic.GamePanel;
+import Graphic.KeyControl;
+import Maps.MapLevel1;
 import Objects.*;
 
 import javax.swing.*;
@@ -8,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Pacman extends Player {
-    private int speed = 5;
+    private int speed = 1;
     public int score = 0;
     private int lives = 3;
     private final int quarterCoins = 59;
@@ -22,6 +24,9 @@ public class Pacman extends Player {
     public boolean ateBigCoin = false;
     public int bigCoinTime = 7000;
     private int timeCaught = 4000;
+    private MapLevel1 mapLevel1 = new MapLevel1();
+    //private GeneralElement[][] myMap = mapLevel1.ElementMap();
+    private Timer timer;
 
 
     //Pacman constructor
@@ -31,6 +36,8 @@ public class Pacman extends Player {
         startPoint();
         image = new ImageIcon("src/Pictures/PacmanLeftOpen.jpg");
     }
+
+
 
     public int getSpeed() {
         return speed;
@@ -104,10 +111,12 @@ public class Pacman extends Player {
             bigCoinsEaten++;
             this.setAteBigCoin(true);
             gamePanel.becomeFood();
-            new Timer(bigCoinTime, e-> {
+            timer = new Timer(bigCoinTime, e-> {
                 ateBigCoin = false;
                 gamePanel.becomeNoFood();
-            }).start();
+                timer.stop();
+            });
+            timer.start();
         }
         addLive();
 
@@ -120,4 +129,47 @@ public class Pacman extends Player {
             lives++;
         }
     }
+
+    public void movePacman(KeyControl keyControl, GamePanel gamePanel) {
+        if (keyControl.getDesiredDirection().equals("UP")) {
+            if (canMove(gamePanel.getMyMap(), 0, - getSpeed())) {
+                keyControl.setCurrentDirection("UP");
+            }
+        } else if (keyControl.getDesiredDirection().equals("DOWN") && canMove(gamePanel.getMyMap(), 0, getSpeed())) {
+            keyControl.setCurrentDirection( "DOWN");
+        } else if (keyControl.getDesiredDirection().equals("RIGHT") && canMove(gamePanel.getMyMap(), getSpeed(), 0)) {
+            keyControl.setCurrentDirection("RIGHT");
+        } else if (keyControl.getDesiredDirection().equals("LEFT") && canMove(gamePanel.getMyMap(), -getSpeed(), 0)) {
+            keyControl.setCurrentDirection("LEFT");
+        }
+        switch (keyControl.getCurrentDirection()) {
+            case "UP":
+                updateCoinsEaten(eat(getX() / size, (getY() - getSpeed()) / size, gamePanel.getMyMap()), gamePanel);
+                setImage(new ImageIcon("src/Pictures/PacmanUpGif.gif"));
+                updateAfterMove(0, -getSpeed(), gamePanel.getMyMap());
+                break;
+            case "DOWN":
+                updateCoinsEaten(eat(getX() / size, (getY() + getSpeed()) / size, gamePanel.getMyMap()), gamePanel);
+                setImage(new ImageIcon("src/Pictures/PacmanDownGif.gif"));
+                updateAfterMove(0, getSpeed(), gamePanel.getMyMap());
+                break;
+            case "RIGHT":
+                updateCoinsEaten(eat((getX() + getSpeed()) / size, getY() / size, gamePanel.getMyMap()), gamePanel);
+                setImage(new ImageIcon("src/Pictures/PacmanRightGif.gif"));
+                channelRightManage((getX() +getSpeed()) / size, getY() / size, gamePanel.getMyMap());
+                updateAfterMove(getSpeed(), 0, gamePanel.getMyMap());
+                break;
+            case "LEFT":
+                updateCoinsEaten(eat((getX() - getSpeed()) / size, getY() / size, gamePanel.getMyMap()), gamePanel);
+                setImage(new ImageIcon("src/Pictures/PacmanLeftGif.gif"));
+                updateAfterMove(-getSpeed(), 0, gamePanel.getMyMap());
+                channelLeftManage((getX() -getSpeed()) / size, getY() / size, gamePanel.getMyMap());
+                break;
+        }
+    }
+
+    public boolean onLife(){
+        return getLives() > 0;
+    }
+
     }
