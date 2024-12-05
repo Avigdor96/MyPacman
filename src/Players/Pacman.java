@@ -97,6 +97,7 @@ public class Pacman extends Player {
         return signToOut;
     }
 
+
     public void setAteBigCoin(boolean ateBigCoin) {
         this.ateBigCoin = ateBigCoin;
     }

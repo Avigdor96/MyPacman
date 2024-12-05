@@ -13,9 +13,7 @@ import java.util.Queue;
 
 public class GamePanel extends JPanel implements Runnable {
     final private int size = 15; // final size of all elements
-    //final private int size = 20;
     private Pinky pinky = new Pinky();
-    ArrayList<Ghost> toGoAfter3Sec = new ArrayList<>();
     private Queue<Ghost> ghostQueueInside = new LinkedList<>();
     private ArrayList<Ghost> ghostListInside = new ArrayList<>();
     private ArrayList<Ghost> ghostListOutSide = new ArrayList<>();
@@ -38,7 +36,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyControl);
         ghostListOutSide.add(pinky);
         allGhosts.add(pinky);
-        //Ghost.createGhostInside(ghostListInside);
         ghostListInside = Ghost.createGhostInside();
         allGhosts.addAll(ghostListInside);
         addInsideQueue();
@@ -69,6 +66,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+
+    //draw all ghosts
     public void drawAllGhosts(Graphics g){
         for (Ghost ghost : allGhosts) {
             g.drawImage(ghost.getImage(), ghost.getX(), ghost.getY(), size, size, this);
@@ -77,16 +76,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Brings the ghosts to start point when Pacman fails or ate big coin
     public void backHome() {
-        //ArrayList<Ghost> toRemove = new ArrayList<>();
         for (Ghost ghost : ghostListOutSide) {
             ghost.startPoint();
-//            if (!(ghost instanceof Pinky)) {
-//                //ghostQueueInside.add(ghost);
-//                ghostListInside.add(ghost);
-//                toRemove.add(ghost);
-//            }
         }
-        //ghostListOutSide.removeAll(toRemove);
     }
 
     //Moves the ghosts outside randomly

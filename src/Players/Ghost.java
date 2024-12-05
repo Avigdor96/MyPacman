@@ -39,6 +39,7 @@ public class Ghost extends Player {
         return in;
     }
 
+
     public void randomMovement1(GeneralElement[][] map){
         boolean canContinue = false;
         Random random = new Random();
