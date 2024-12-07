@@ -1,8 +1,7 @@
 package Graphic;
 
 import Maps.MapLevel1;
-import Objects.Block;
-import Objects.GeneralElement;
+import Objects.*;
 import Players.*;
 
 import javax.swing.*;
@@ -10,6 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable {
     final private int size = 15; // final size of all elements
@@ -22,15 +22,10 @@ public class GamePanel extends JPanel implements Runnable {
     private static MapLevel1 mapLevel1 = new MapLevel1();
     private GeneralElement[][] myMap = mapLevel1.ElementMap();
     private static KeyControl keyControl = new KeyControl();
+    private static ArrayList<Fruit> fruits = new Fruit().createFruitsList();
+    Timer timer;
+    Random random = new Random();
     Thread threadGame;
-
-    public Pacman getPacman() {
-        return pacman;
-    }
-
-    public GeneralElement[][] getMyMap() {
-        return myMap;
-    }
 
     public GamePanel() {
         this.addKeyListener(keyControl);
@@ -43,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
         threadGame = new Thread(this);
         threadGame.start();
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -128,7 +124,13 @@ public class GamePanel extends JPanel implements Runnable {
             }
             }
         }
+    }
+    public Pacman getPacman() {
+        return pacman;
+    }
 
+    public GeneralElement[][] getMyMap() {
+        return myMap;
     }
 
     @Override
@@ -137,6 +139,7 @@ public class GamePanel extends JPanel implements Runnable {
             pacman.movePacman(keyControl, this);
             repaint();
             randomAll();
+            //setToFruit();
             meetWithGhost();
             if (pacman.ateQuarter() &&  ghostQueueInside.peek() != null){
                 ghostListOutSide.add(ghostQueueInside.peek());
@@ -152,4 +155,44 @@ public class GamePanel extends JPanel implements Runnable {
         }
         System.exit(0);
     }
+
+//    public GeneralElement prevType(GeneralElement obj){
+//        if (obj instanceof BigCoin){
+//            return new BigCoin(obj.getX(), obj.getY());
+//        }
+//        else if (obj instanceof Coin){
+//            return new Coin(obj.getX(), obj.getY());
+//        }
+//        else if (obj instanceof Empty){
+//            return new Empty(obj.getX(), obj.getY());
+//        }
+//        else if(obj instanceof Block){
+//            return new Block(obj.getX(), obj.getY());
+//        }
+//        else if(obj instanceof Channel){
+//            return new Channel(obj.getX(), obj.getY());
+//        }
+//        else {
+//            return null;
+//        }
+//    }
+//
+//    public void setToFruit(){
+//        for (int i = 0; i < myMap.length; i++) {
+//            for (int j = 0; j < myMap[i].length; j++) {
+//                if (myMap[i][j].canPath() && !( myMap[i][j].isChannel())){
+//                    GeneralElement prev = prevType(myMap[i][j]);
+//                    Fruit fruit = fruits.get(random.nextInt(fruits.size()));
+//                    if (fruit.isOnScreen()) myMap[i][j] = fruit;
+//                    int finalI = i;
+//                    int finalJ = j;
+//                    timer = new Timer(fruit.getSecOnScreen(), e -> {
+//                        myMap[finalI][finalJ] = prev;
+//                        timer.stop();
+//                    });
+//                    timer.start();
+//                }
+//            }
+//        }
+//    }
 }
