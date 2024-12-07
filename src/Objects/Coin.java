@@ -13,6 +13,11 @@ public class Coin extends GeneralElement implements Eatable{
     }
 
     @Override
+    public boolean canEat() {
+        return true;
+    }
+
+    @Override
     public void setPoint(int x, int y) {
         point.x = x;
         point.y = y;

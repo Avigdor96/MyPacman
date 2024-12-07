@@ -50,7 +50,7 @@ public class Ghost extends Player {
                 canContinue = canMove(map, speed, 0);
                 break;
             }
-            case 3: if (!(channelLeftManage((getX() - getSpeed()) / size, getY() / size, map))) {
+            case 3: if (!(leftChannelManage((getX() - getSpeed()) / size, getY() / size, map))) {
                 canContinue = canMove(map, -speed, 0);
                 break;
             }
@@ -58,12 +58,14 @@ public class Ghost extends Player {
         ArrayList<Integer> directions = new ArrayList<>();
             if (canMove(map, 0, -speed)) directions.add(0); // up
             if (canMove(map, 0, speed)) directions.add(1);  //down
-        if(!(channelRightManage(getX() / size, getY() / size, map))) {
             if (canMove(map, speed, 0)) directions.add(2);  // right
-        }
-        if (!(channelLeftManage((getX() - getSpeed()) / size, getY() / size, map))) {
             if (canMove(map, -speed, 0)) directions.add(3); // left
-        }
+//        if(!(channelRightManage(getX() / size, getY() / size, map))) {
+//            if (canMove(map, speed, 0)) directions.add(2);  // right
+//        }
+//        if (!(leftChannelManage((getX() - getSpeed()) / size, getY() / size, map))) {
+//            if (canMove(map, -speed, 0)) directions.add(3); // left
+//        }
 
         if ((!canContinue || (canContinue && directions.size() > 2)) && (!(directions.isEmpty()))){
             currentDirection = directions.get(random.nextInt(directions.size()));
@@ -77,20 +79,16 @@ public class Ghost extends Player {
                updateAfterMove(0, speed, map);
                 break;
             case 2:
-                if(!(channelRightManage(getX() / size, getY() / size, map))) {
-                    updateAfterMove(speed, 0, map);
-                }
-                else {
-                    System.out.println("");
-                }
+                updateAfterMove(speed, 0, map);
+//                if(!(channelRightManage(getX() / size, getY() / size, map))) {
+//                    updateAfterMove(speed, 0, map);
+//                }
                 break;
             case 3:
-                if (!(channelLeftManage((getX() - getSpeed()) / size, getY() / size, map))) {
-                    updateAfterMove(-speed, 0, map);
-                }
-                else {
-                    System.out.println("");
-                }
+                updateAfterMove(-speed, 0, map);
+//                if (!(leftChannelManage((getX() - getSpeed()) / size, getY() / size, map))) {
+//                    updateAfterMove(-speed, 0, map);
+//                }
                 break;
         }
     }

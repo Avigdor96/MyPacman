@@ -20,6 +20,11 @@ public class Channel extends GeneralElement{
     }
 
     @Override
+    public boolean isChannel() {
+        return true;
+    }
+
+    @Override
     public Image getImage() {
         return image.getImage();
     }

@@ -21,11 +21,11 @@ public class Pacman extends Player {
     private int bigCoinsEaten = 0;
     private int quartersEaten = 0;
     private int coinValue = 10;
+    private int bigCoinValue = 30;
     public boolean ateBigCoin = false;
     public int bigCoinTime = 7000;
     private int timeCaught = 4000;
     private MapLevel1 mapLevel1 = new MapLevel1();
-    //private GeneralElement[][] myMap = mapLevel1.ElementMap();
     private Timer timer;
 
 
@@ -36,8 +36,6 @@ public class Pacman extends Player {
         startPoint();
         image = new ImageIcon("src/Pictures/PacmanLeftOpen.jpg");
     }
-
-
 
     public int getSpeed() {
         return speed;
@@ -63,14 +61,14 @@ public class Pacman extends Player {
     }
 
     //Manage eating
-    public int eat(int x, int y, GeneralElement[][] map) {
-        if (map[y][x] instanceof Coin) {
-            int value = ((Coin) map[y][x]).getValue();
+    public int eat(int x, int y, GeneralElement[][] map){
+        int value = 0;
+        if (map[y][x].canEat()){
+            value = ((Coin) map[y][x]).getValue();
             map[y][x] = new Empty(x * size, y * size);
-            score += value;
-            return value;
         }
-        return 0;
+        score += value;
+        return value;
     }
 
     public void addScore(int score) {
@@ -91,7 +89,7 @@ public class Pacman extends Player {
         boolean signToOut;
         signToOut = coinsEaten == quarterCoins;
         if (signToOut){
-            coinsEaten = 0;
+            coinsEaten = 0; //Recount "coinsEaten"
             quartersEaten++;
         }
         return signToOut;
@@ -108,7 +106,7 @@ public class Pacman extends Player {
             coinsEaten++;
             sumCoinsEaten++;
         }
-        else if (value == 30){
+        else if (value == bigCoinValue){
             bigCoinsEaten++;
             this.setAteBigCoin(true);
             gamePanel.becomeFood();
@@ -120,7 +118,6 @@ public class Pacman extends Player {
             timer.start();
         }
         addLive();
-
         }
 
 
@@ -164,7 +161,7 @@ public class Pacman extends Player {
                 updateCoinsEaten(eat((getX() - getSpeed()) / size, getY() / size, gamePanel.getMyMap()), gamePanel);
                 setImage(new ImageIcon("src/Pictures/PacmanLeftGif.gif"));
                 updateAfterMove(-getSpeed(), 0, gamePanel.getMyMap());
-                channelLeftManage((getX() -getSpeed()) / size, getY() / size, gamePanel.getMyMap());
+                leftChannelManage((getX() -getSpeed()) / size, getY() / size, gamePanel.getMyMap());
                 break;
         }
     }
@@ -172,5 +169,17 @@ public class Pacman extends Player {
     public boolean onLife(){
         return getLives() > 0;
     }
+
+
+//    //Manage eating
+//    public int eat(int x, int y, GeneralElement[][] map) {
+//        if (map[y][x] instanceof Coin) {
+//            int value = ((Coin) map[y][x]).getValue();
+//            map[y][x] = new Empty(x * size, y * size);
+//            score += value;
+//            return value;
+//        }
+//        return 0;
+//    }
 
     }

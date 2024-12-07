@@ -50,23 +50,7 @@ public abstract class Player extends GeneralElement implements Moveable {
         return false;
     }
 
-    public boolean noChannel(GeneralElement[][] myMap, int plusX, int plusY){
-        int startX = point.x + plusX;
-        int startY = point.y + plusY;
-        int endX = startX + (size - 1);
-        int endY = startY + (size - 1);
-        int mapLeft = startX / size;
-        int mapRight = endX / size;
-        int mapTop = startY / size;
-        int mapBottom = endY / size;
-        if((!(myMap[mapTop][mapLeft]instanceof Channel))
-                && (!(myMap[mapBottom][mapLeft] instanceof Channel))
-                && (!(myMap[mapTop][mapRight] instanceof Channel))
-                && (!(myMap[mapBottom][mapRight] instanceof Channel))) {
-            return true;
-        }
-        return false;
-    }
+
     public void updateAfterMove(int plusX, int plusY, GeneralElement[][] myMap) {
         int startX = point.x + plusX;
         int startY = point.y + plusY;
@@ -91,8 +75,8 @@ public abstract class Player extends GeneralElement implements Moveable {
         return image.getImage();
     }
 
-    public boolean channelLeftManage(int x, int y, GeneralElement[][] map){
-        if (map[y][x] instanceof Channel){
+    public boolean leftChannelManage(int x, int y, GeneralElement[][] map){
+        if (map[y][x].isChannel()){
             this.setPoint((map[0].length - 2) * size, getY());
             return true;
         }
@@ -100,7 +84,7 @@ public abstract class Player extends GeneralElement implements Moveable {
     }
 
     public boolean channelRightManage(int x, int y, GeneralElement[][] map){
-        if (map[y][x] instanceof Channel){
+        if (map[y][x].isChannel()){
             this.setPoint(30, getY());
             return true;
         }
@@ -112,4 +96,38 @@ public abstract class Player extends GeneralElement implements Moveable {
         Rectangle rectangle2 = new Rectangle(p1.getX(), p1.getY(), p1.size ,p1.size);
         return new Rectangle(getX(), getY(),size, size).intersects(rectangle2);
     }
+
+    //    public boolean noChannel(GeneralElement[][] myMap, int plusX, int plusY){
+//        int startX = point.x + plusX;
+//        int startY = point.y + plusY;
+//        int endX = startX + (size - 1);
+//        int endY = startY + (size - 1);
+//        int mapLeft = startX / size;
+//        int mapRight = endX / size;
+//        int mapTop = startY / size;
+//        int mapBottom = endY / size;
+//        if((!(myMap[mapTop][mapLeft]instanceof Channel))
+//                && (!(myMap[mapBottom][mapLeft] instanceof Channel))
+//                && (!(myMap[mapTop][mapRight] instanceof Channel))
+//                && (!(myMap[mapBottom][mapRight] instanceof Channel))) {
+//            return true;
+//        }
+//        return false;
+//    }
+
+//    public boolean channelLeftManage(int x, int y, GeneralElement[][] map){
+//        if (map[y][x] instanceof Channel){
+//            this.setPoint((map[0].length - 2) * size, getY());
+//            return true;
+//        }
+//        return false;
+//    }
+
+//    public boolean channelRightManage(int x, int y, GeneralElement[][] map){
+//        if (map[y][x] instanceof Channel){
+//            this.setPoint(30, getY());
+//            return true;
+//        }
+//        return false;
+//    }
 }
