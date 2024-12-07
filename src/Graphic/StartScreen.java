@@ -36,11 +36,5 @@ public class StartScreen extends JFrame {
         this.dispose();
     }
 
-
-//    public static void main(String[] args) {
-//        StartScreen startScreen = new StartScreen();
-//        startScreen.setVisible(true);
-//        System.out.println("bla");
-//    }
 }
 
