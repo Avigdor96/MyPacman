@@ -1,5 +1,7 @@
 package Objects;
 
+import Players.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,5 +29,11 @@ public abstract class GeneralElement implements Element{
 
     public int getY(){
         return point.y;
+    }
+
+    //Checks if two elements are meet
+    public boolean onSamePosition(GeneralElement p1) {
+        Rectangle rectangle2 = new Rectangle(p1.getX(), p1.getY(), p1.size ,p1.size);
+        return new Rectangle(getX(), getY(),size, size).intersects(rectangle2);
     }
 }

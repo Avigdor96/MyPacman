@@ -14,14 +14,15 @@ public class Ghost extends Player {
     protected int currentDirection = -1;
     protected ImageIcon srcImage;
     public ImageIcon eatableImage = new ImageIcon("src/Pictures/GhostEatable.jpg");
-    protected MapLevel1 mapLevel1;
+    protected MapLevel1 mapLevel1 = new MapLevel1();
+    protected GeneralElement[][] map = mapLevel1.ElementMap();
     protected boolean food;
     protected boolean needToGoAfter3sec;
     protected boolean move;
     protected Timer exitTimer;
 
     public Ghost() {
-        this.mapLevel1 = new MapLevel1();
+        //this.mapLevel1 = new MapLevel1();
         image = srcImage;
         setPoint(startPointX * size, startPointY * size);
         startPoint();
@@ -37,6 +38,15 @@ public class Ghost extends Player {
         in.add(bluish1);
         in.add(purplish1);
         return in;
+    }
+
+    //Moves the ghosts outside randomly
+    public void randomAll(ArrayList<Ghost> ghostListOutSide) {
+        for (int i = 0; i < ghostListOutSide.size(); i++) {
+            if (ghostListOutSide.get(i).isMove()) {
+                ghostListOutSide.get(i).randomMovement1(map);
+            }
+        }
     }
 
 
@@ -60,12 +70,6 @@ public class Ghost extends Player {
             if (canMove(map, 0, speed)) directions.add(1);  //down
             if (canMove(map, speed, 0)) directions.add(2);  // right
             if (canMove(map, -speed, 0)) directions.add(3); // left
-//        if(!(channelRightManage(getX() / size, getY() / size, map))) {
-//            if (canMove(map, speed, 0)) directions.add(2);  // right
-//        }
-//        if (!(leftChannelManage((getX() - getSpeed()) / size, getY() / size, map))) {
-//            if (canMove(map, -speed, 0)) directions.add(3); // left
-//        }
 
         if ((!canContinue || (canContinue && directions.size() > 2)) && (!(directions.isEmpty()))){
             currentDirection = directions.get(random.nextInt(directions.size()));
@@ -80,15 +84,9 @@ public class Ghost extends Player {
                 break;
             case 2:
                 updateAfterMove(speed, 0, map);
-//                if(!(channelRightManage(getX() / size, getY() / size, map))) {
-//                    updateAfterMove(speed, 0, map);
-//                }
                 break;
             case 3:
                 updateAfterMove(-speed, 0, map);
-//                if (!(leftChannelManage((getX() - getSpeed()) / size, getY() / size, map))) {
-//                    updateAfterMove(-speed, 0, map);
-//                }
                 break;
         }
     }

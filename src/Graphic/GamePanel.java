@@ -22,9 +22,11 @@ public class GamePanel extends JPanel implements Runnable {
     private static MapLevel1 mapLevel1 = new MapLevel1();
     private GeneralElement[][] myMap = mapLevel1.ElementMap();
     private static KeyControl keyControl = new KeyControl();
-    private static ArrayList<Fruit> fruits = new Fruit().createFruitsList();
-    Timer timer;
-    Random random = new Random();
+    private static FruitManager fruitManager = new FruitManager();
+    private Timer timer;
+    private Timer timerForFruit;
+    private Random random = new Random();
+    private Ghost ghost = new Ghost();
     Thread threadGame;
 
     public GamePanel() {
@@ -36,6 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
         addInsideQueue();
         this.setFocusable(true);
         threadGame = new Thread(this);
+        timer = new Timer(4000, e -> fruitManager.updateFruits());
+        timer.start();
         threadGame.start();
     }
 
@@ -48,8 +52,14 @@ public class GamePanel extends JPanel implements Runnable {
                 g.drawImage(myMap[i][j].getImage(), myMap[i][j].getX(), myMap[i][j].getY(), size, size, this);
             }
         }
+
         drawAllGhosts(g);    //Draw all ghosts from "allGhosts" list
         g.drawImage(pacman.getImage(), pacman.getX(), pacman.getY(), size, size, this);//Draw pacman
+        for (Fruit fruit : fruitManager.getFruits()) {
+            if (fruit.isOnScreen()) {
+                g.drawImage(fruit.getImage(), fruit.getX(), fruit.getY(), size, size, this);
+            }
+        }
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -74,15 +84,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void backHome() {
         for (Ghost ghost : ghostListOutSide) {
             ghost.startPoint();
-        }
-    }
-
-    //Moves the ghosts outside randomly
-    public void randomAll() {
-        for (int i = 0; i < ghostListOutSide.size(); i++) {
-            if (ghostListOutSide.get(i).isMove()) {
-                    ghostListOutSide.get(i).randomMovement1(myMap);
-            }
         }
     }
 
@@ -133,14 +134,23 @@ public class GamePanel extends JPanel implements Runnable {
         return myMap;
     }
 
+    //    //Moves the ghosts outside randomly
+//    public void randomAll() {
+//        for (int i = 0; i < ghostListOutSide.size(); i++) {
+//            if (ghostListOutSide.get(i).isMove()) {
+//                    ghostListOutSide.get(i).randomMovement1(myMap);
+//            }
+//        }
+//    }
+
     @Override
     public void run() {
         while (pacman.onLife()) {
             pacman.movePacman(keyControl, this);
             repaint();
-            randomAll();
-            //setToFruit();
+            ghost.randomAll(ghostListOutSide);
             meetWithGhost();
+            pacman.eatFruit(fruitManager.getFruits());
             if (pacman.ateQuarter() &&  ghostQueueInside.peek() != null){
                 ghostListOutSide.add(ghostQueueInside.peek());
                 ghostListInside.remove(ghostQueueInside.peek());
@@ -155,44 +165,4 @@ public class GamePanel extends JPanel implements Runnable {
         }
         System.exit(0);
     }
-
-//    public GeneralElement prevType(GeneralElement obj){
-//        if (obj instanceof BigCoin){
-//            return new BigCoin(obj.getX(), obj.getY());
-//        }
-//        else if (obj instanceof Coin){
-//            return new Coin(obj.getX(), obj.getY());
-//        }
-//        else if (obj instanceof Empty){
-//            return new Empty(obj.getX(), obj.getY());
-//        }
-//        else if(obj instanceof Block){
-//            return new Block(obj.getX(), obj.getY());
-//        }
-//        else if(obj instanceof Channel){
-//            return new Channel(obj.getX(), obj.getY());
-//        }
-//        else {
-//            return null;
-//        }
-//    }
-//
-//    public void setToFruit(){
-//        for (int i = 0; i < myMap.length; i++) {
-//            for (int j = 0; j < myMap[i].length; j++) {
-//                if (myMap[i][j].canPath() && !( myMap[i][j].isChannel())){
-//                    GeneralElement prev = prevType(myMap[i][j]);
-//                    Fruit fruit = fruits.get(random.nextInt(fruits.size()));
-//                    if (fruit.isOnScreen()) myMap[i][j] = fruit;
-//                    int finalI = i;
-//                    int finalJ = j;
-//                    timer = new Timer(fruit.getSecOnScreen(), e -> {
-//                        myMap[finalI][finalJ] = prev;
-//                        timer.stop();
-//                    });
-//                    timer.start();
-//                }
-//            }
-//        }
-//    }
 }

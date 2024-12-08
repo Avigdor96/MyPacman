@@ -47,10 +47,10 @@ public class Pacman extends Player {
 
     //Manage situation when pacman catching by a ghost
     public void pacmanCaught(GamePanel gamePanel) {
-        lives--;                         //Less 1 live
-        startPoint();                   //Returns pacman to start points
-        deathImageManage();            //Changes image to death gif
-        new Timer(timeCaught, e->{    //Waiting a few seconds before returns pacman to src image
+        lives--;
+        startPoint();
+        deathImageManage();
+        new Timer(timeCaught, e->{
             setImage(new ImageIcon("src/Pictures/PacmanLeftOpen.jpg"));
         }).start();
         gamePanel.backHome();      //Returns all ghosts to their start points
@@ -170,16 +170,13 @@ public class Pacman extends Player {
         return getLives() > 0;
     }
 
-
-//    //Manage eating
-//    public int eat(int x, int y, GeneralElement[][] map) {
-//        if (map[y][x] instanceof Coin) {
-//            int value = ((Coin) map[y][x]).getValue();
-//            map[y][x] = new Empty(x * size, y * size);
-//            score += value;
-//            return value;
-//        }
-//        return 0;
-//    }
+    public void eatFruit(ArrayList<Fruit> fruits){
+        for (Fruit fruit : fruits) {
+            if (this.onSamePosition(fruit) && fruit.isOnScreen()){
+                addScore(fruit.getValue());
+                fruit.setOnScreen(false);
+            }
+        }
+    }
 
     }
