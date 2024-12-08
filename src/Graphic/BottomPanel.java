@@ -18,9 +18,10 @@ public class BottomPanel extends JPanel implements Runnable{
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
         setVisible(true);
-        Font font = new Font("Avi", Font.BOLD, 20);
+        Font font = new Font("Ariel", Font.BOLD, 35);
         this.bottomLabel = new JLabel("Life: " + pacman.getLives());
         bottomLabel.setForeground(Color.BLACK);
+        bottomLabel.setFont(font);
         this.add(bottomLabel, BorderLayout.WEST);
         bottomThread = new Thread(this);
         bottomThread.start();

@@ -7,7 +7,8 @@ import javax.swing.*;
 public class MapLevel1 {
 
     public GeneralElement[][] ElementMap(){
-        int size = 15;
+        //int size = 15;
+        int size = 20;
         MapLevel1 MapLevel1 = new MapLevel1();
         int[][] intMap = MapLevel1.intMap();
         GeneralElement[][] myMap = new GeneralElement[intMap.length][intMap[0].length];

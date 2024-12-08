@@ -12,7 +12,8 @@ import java.util.Queue;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable {
-    final private int size = 15; // final size of all elements
+    //final private int size = 15; // final size of all elements
+    final private int size = 20; // final size of all elements
     private Pinky pinky = new Pinky();
     private Queue<Ghost> ghostQueueInside = new LinkedList<>();
     private ArrayList<Ghost> ghostListInside = new ArrayList<>();

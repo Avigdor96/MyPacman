@@ -16,12 +16,11 @@ import java.util.Timer;
 public class FruitManager {
     private static MapLevel1 mapLevel1 = new MapLevel1();
     private static GeneralElement[][] map = mapLevel1.ElementMap();
-    private static int size = 15;
+    private static int size = 20;
     private ArrayList<Point> possiblePoint = possiblePositions();
     private ArrayList<Fruit> fruits = new ArrayList<>();
     private Random random = new Random();
     private Timer timer;
-    private static final int SPAWN_CHANCE = 3;
 
 
     public FruitManager() {
