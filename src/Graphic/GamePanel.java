@@ -135,15 +135,6 @@ public class GamePanel extends JPanel implements Runnable {
         return myMap;
     }
 
-    //    //Moves the ghosts outside randomly
-//    public void randomAll() {
-//        for (int i = 0; i < ghostListOutSide.size(); i++) {
-//            if (ghostListOutSide.get(i).isMove()) {
-//                    ghostListOutSide.get(i).randomMovement1(myMap);
-//            }
-//        }
-//    }
-
     @Override
     public void run() {
         while (pacman.onLife()) {

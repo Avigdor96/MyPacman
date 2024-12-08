@@ -20,7 +20,6 @@ public class FruitManager {
     private ArrayList<Point> possiblePoint = possiblePositions();
     private ArrayList<Fruit> fruits = new ArrayList<>();
     private Random random = new Random();
-    private Timer timer;
 
 
     public FruitManager() {
@@ -29,29 +28,20 @@ public class FruitManager {
 
     public void updateFruits() {
         for (Fruit fruit : fruits) {
-            fruit.setPoint(possiblePoint.get(random.nextInt(possiblePoint.size())));
             fruit.setOnScreen();
+            if (fruit.isOnScreen()){
+                fruit.setPoint(possiblePoint.get(random.nextInt(possiblePoint.size())));
+            }
         }
     }
 
-    public void setPointsRandom(){
-        for (Fruit fruit : fruits) {
-            fruit.setPoint(possiblePoint.get(random.nextInt(possiblePoint.size())));
-        }
-    }
-
-    public void setOnScreen(){
-        for (Fruit fruit : fruits) {
-            fruit.setOnScreen();
-        }
-    }
 
 
     public ArrayList<Point> possiblePositions(){
         ArrayList<Point> points1 = new ArrayList<>();
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                if (map[i][j].canPath() && ! (map[i][j] instanceof Empty)){
+                if (map[i][j].canPath() && ! (map[i][j] instanceof Empty) && !(map[i][j].isChannel())){
                     Point point1 = new Point(j * size, i * size);
                     points1.add(point1);
                 }

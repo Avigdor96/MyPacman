@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class Player extends GeneralElement implements Moveable {
-    protected int speed = 5;
+    //protected int speed = 5;
     protected int startPointX;
     protected int startPointY;
     protected int locationX;
@@ -90,12 +90,4 @@ public abstract class Player extends GeneralElement implements Moveable {
         }
         return false;
     }
-
-//    //Checks if two players are meet
-//    public boolean onSamePosition(Player p1) {
-//        Rectangle rectangle2 = new Rectangle(p1.getX(), p1.getY(), p1.size ,p1.size);
-//        return new Rectangle(getX(), getY(),size, size).intersects(rectangle2);
-//    }
-
-
 }
