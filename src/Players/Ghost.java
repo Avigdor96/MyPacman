@@ -29,7 +29,7 @@ public class Ghost extends Player {
         move = true;
     }
 
-    public static ArrayList<Ghost> createGhostInside() {
+     public static ArrayList<Ghost> createGhostInside() {
         ArrayList<Ghost> in = new ArrayList<>();
         Blinky blinky = new Blinky();
         Bluish bluish1 = new Bluish();
@@ -38,7 +38,7 @@ public class Ghost extends Player {
         in.add(bluish1);
         in.add(purplish1);
         return in;
-    }
+     }
 
     //Moves the ghosts outside randomly
     public void randomAll(ArrayList<Ghost> ghostListOutSide) {

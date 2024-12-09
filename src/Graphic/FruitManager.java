@@ -51,11 +51,11 @@ public class FruitManager {
     }
 
     public void createFruitsToList(){
-        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())), "src/Pictures/Apple.png", 700, 5));
-        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())),  "src/Pictures/Cherry.jpg", 100, 10));
-        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())),  "src/Pictures/Melon.jpg", 1000, 3));
-        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())),  "src/Pictures/Orange.png", 500, 6));
-        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())), "src/Pictures/תות.png", 300, 8));
+        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())), "src/Pictures/Apple.png", 700, 5000));
+        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())),  "src/Pictures/Cherry.jpg", 100, 1000));
+        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())),  "src/Pictures/Melon.jpg", 1000, 3000));
+        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())),  "src/Pictures/Orange.png", 500, 6000));
+        fruits.add(new Fruit(possiblePoint.get(random.nextInt(possiblePoint.size())), "src/Pictures/תות.png", 300, 8000));
     }
 
 

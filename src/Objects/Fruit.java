@@ -75,27 +75,27 @@ public class Fruit extends GeneralElement implements Eatable {
     public void setOnScreen(boolean b) {
         this.onScreen = b;
     }
-//
-//    public void setOnScreen() {
-//        boolean to = !onScreen;
-//        timer = new Timer(this.getSecOnScreen(), e -> {
-//            this.onScreen = to;
-//            timer.stop();
-//        });
-//        timer.start();
-//
-//    }
-public void setOnScreen() {
-    if (timer != null && timer.isRunning()) {
-        timer.stop(); // עוצר טיימר קודם אם קיים
+
+    public void setOnScreen() {
+        boolean to = !onScreen;
+        timer = new Timer(this.getSecOnScreen(), e -> {
+            this.onScreen = to;
+            timer.stop();
+        });
+        timer.start();
+
     }
-    boolean to = !onScreen; // מחליף את המצב (מופיע או לא)
-    timer = new Timer(secOnScreen * 1000, e -> {
-        this.onScreen = to;
-        timer.stop(); // עוצר את הטיימר אחרי עדכון המצב
-    });
-    timer.setRepeats(false); // הטיימר לא יחזור על עצמו
-    timer.start();
-}
+//public void setOnScreen() {
+//    if (timer != null && timer.isRunning()) {
+//        timer.stop(); // עוצר טיימר קודם אם קיים
+//    }
+//    boolean to = !onScreen; // מחליף את המצב (מופיע או לא)
+//    timer = new Timer(secOnScreen * 1000, e -> {
+//        this.onScreen = to;
+//        timer.stop(); // עוצר את הטיימר אחרי עדכון המצב
+//    });
+//    timer.setRepeats(false); // הטיימר לא יחזור על עצמו
+//    timer.start();
+//}
 
 }

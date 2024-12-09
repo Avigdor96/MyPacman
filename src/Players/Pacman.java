@@ -17,7 +17,7 @@ public class Pacman extends Player {
     private int coinsEaten = 0;     //Counts coins were eaten and reset all quarter
     private int sumCoinsEaten = 0;  //Counts coins were eaten in total
     private boolean addedLive = false;
-    private final int sumBigCoins = 4;
+    //private final int sumBigCoins = 4;
     private int bigCoinsEaten = 0;
     private int quartersEaten = 0;
     private int coinValue = 10;
@@ -53,7 +53,7 @@ public class Pacman extends Player {
         new Timer(timeCaught, e->{
             setImage(new ImageIcon("src/Pictures/PacmanLeftOpen.jpg"));
         }).start();
-        gamePanel.backHome();      //Returns all ghosts to their start points
+        gamePanel.getGhostManager().backHome();
     }
 
     public void deathImageManage(){
@@ -109,10 +109,10 @@ public class Pacman extends Player {
         else if (value == bigCoinValue){
             bigCoinsEaten++;
             this.setAteBigCoin(true);
-            gamePanel.becomeFood();
+            gamePanel.getGhostManager().becomeFood();
             timer = new Timer(bigCoinTime, e-> {
                 ateBigCoin = false;
-                gamePanel.becomeNoFood();
+                gamePanel.getGhostManager().becomeNoFood();
                 timer.stop();
             });
             timer.start();
