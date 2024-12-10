@@ -6,10 +6,6 @@ import Players.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable {
     final private int size = 20; // final size of all elements
@@ -57,26 +53,6 @@ public class GamePanel extends JPanel implements Runnable {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    public void meetWithGhost(){
-        for (Ghost ghost : ghostManager.getAllGhosts()) {
-            if (pacman.onSamePosition(ghost)) {
-                if (ghost.isFood()) {
-                    ghost.setFood(false);
-                    pacman.addScore(200);
-                    ghost.startPoint();
-                    ghost.backToSrc();
-                    ghost.setNeedToGoAfter3sec(true);
-                    ghost.waite3SecondsAndGo();
-                }
-                else{
-                    pacman.pacmanCaught();
-                    ghostManager.backHome();
-                    ghostManager.pacmanFail();
-            }
-            }
-        }
-    }
-
     public Pacman getPacman() {
         return pacman;
     }
@@ -91,7 +67,8 @@ public class GamePanel extends JPanel implements Runnable {
             pacman.movePacman(keyControl, this);
             repaint();
             ghostManager.randomAll();
-            meetWithGhost();
+            //meetWithGhost();
+            ghostManager.meetWithPacman(pacman);
             pacman.eatFruit(fruitManager.getFruits());
             ghostManager.exitGhostManager(pacman);
             try {

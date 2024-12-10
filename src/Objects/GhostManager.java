@@ -107,6 +107,26 @@ public class GhostManager {
         }
     }
 
+    public void meetWithPacman(Pacman pacman){
+        for (Ghost ghost :allGhosts) {
+            if (pacman.onSamePosition(ghost)) {
+                if (ghost.isFood()) {
+                    ghost.setFood(false);
+                    pacman.addScore(200);
+                    ghost.startPoint();
+                    ghost.backToSrc();
+                    ghost.setNeedToGoAfter3sec(true);
+                    ghost.waite3SecondsAndGo();
+                }
+                else{
+                    pacman.pacmanCaught();
+                    backHome();
+                    pacmanFail();
+                }
+            }
+        }
+    }
+
     public Queue<Ghost> getGhostQueueInside() {
         return ghostQueueInside;
     }
