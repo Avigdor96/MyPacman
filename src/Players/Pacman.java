@@ -17,15 +17,15 @@ public class Pacman extends Player {
     private int coinsEaten = 0;     //Counts coins were eaten and reset all quarter
     private int sumCoinsEaten = 0;  //Counts coins were eaten in total
     private boolean addedLive = false;
-    //private final int sumBigCoins = 4;
     private int bigCoinsEaten = 0;
     private int quartersEaten = 0;
     private int coinValue = 10;
     private int bigCoinValue = 30;
     public boolean ateBigCoin = false;
     public int bigCoinTime = 7000;
-    private int timeCaught = 4000;
+    private int timeCaught = 5000;
     private MapLevel1 mapLevel1 = new MapLevel1();
+    private GeneralElement[][] map = mapLevel1.ElementMap();
     private Timer timer;
 
 
@@ -41,19 +41,15 @@ public class Pacman extends Player {
         return speed;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
 
     //Manage situation when pacman catching by a ghost
-    public void pacmanCaught(GamePanel gamePanel) {
+    public void pacmanCaught() {
         lives--;
         startPoint();
         deathImageManage();
         new Timer(timeCaught, e->{
             setImage(new ImageIcon("src/Pictures/PacmanLeftOpen.jpg"));
         }).start();
-        gamePanel.getGhostManager().backHome();
     }
 
     public void deathImageManage(){
@@ -89,7 +85,7 @@ public class Pacman extends Player {
         boolean signToOut;
         signToOut = coinsEaten == quarterCoins;
         if (signToOut){
-            coinsEaten = 0; //Recount "coinsEaten"
+            coinsEaten = 0;    //Recount "coinsEaten"
             quartersEaten++;
         }
         return signToOut;

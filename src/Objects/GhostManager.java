@@ -98,6 +98,15 @@ public class GhostManager {
         }
     }
 
+    public void pacmanFail(){
+        for (Ghost ghost :ghostListOutSide) {
+            ghost.setNeedToGoAfter3sec(true);
+        }
+        for (Ghost ghost : ghostListOutSide) {
+            ghost.waite3SecondsAndGo();
+        }
+    }
+
     public Queue<Ghost> getGhostQueueInside() {
         return ghostQueueInside;
     }

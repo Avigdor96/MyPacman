@@ -16,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Pinky pinky = new Pinky();
     private Pacman pacman = new Pacman(size);
     private static MapLevel1 mapLevel1 = new MapLevel1();
-    private GeneralElement[][] myMap = mapLevel1.ElementMap();
+    private  GeneralElement[][] myMap = mapLevel1.ElementMap();
     private static KeyControl keyControl = new KeyControl();
     private static FruitManager fruitManager = new FruitManager();
     private GhostManager ghostManager = new GhostManager(this);
@@ -69,17 +69,14 @@ public class GamePanel extends JPanel implements Runnable {
                     ghost.waite3SecondsAndGo();
                 }
                 else{
-                    pacman.pacmanCaught(this);
-                    for (Ghost ghost1 : ghostManager.getGhostListOutSide()) {
-                        ghost1.setNeedToGoAfter3sec(true);
-                    }
-                    for (Ghost ghost1 : ghostManager.getGhostListOutSide()) {
-                        ghost1.waite3SecondsAndGo();
-                    }
+                    pacman.pacmanCaught();
+                    ghostManager.backHome();
+                    ghostManager.pacmanFail();
             }
             }
         }
     }
+
     public Pacman getPacman() {
         return pacman;
     }
