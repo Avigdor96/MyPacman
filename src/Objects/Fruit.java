@@ -36,6 +36,15 @@ public class Fruit extends GeneralElement implements Eatable {
         return value;
     }
 
+    @Override
+    public void afterPacmanAte(GeneralElement[][] map) {
+
+    }
+
+    @Override
+    public boolean canEat() {
+        return true;
+    }
 
     @Override
     public void setPoint(int x, int y) {
@@ -85,17 +94,5 @@ public class Fruit extends GeneralElement implements Eatable {
         timer.start();
 
     }
-//public void setOnScreen() {
-//    if (timer != null && timer.isRunning()) {
-//        timer.stop(); // עוצר טיימר קודם אם קיים
-//    }
-//    boolean to = !onScreen; // מחליף את המצב (מופיע או לא)
-//    timer = new Timer(secOnScreen * 1000, e -> {
-//        this.onScreen = to;
-//        timer.stop(); // עוצר את הטיימר אחרי עדכון המצב
-//    });
-//    timer.setRepeats(false); // הטיימר לא יחזור על עצמו
-//    timer.start();
-//}
 
 }

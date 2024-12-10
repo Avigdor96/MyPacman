@@ -37,4 +37,9 @@ public class Coin extends GeneralElement implements Eatable{
     public int getValue() {
         return value;
     }
+
+    @Override
+    public void afterPacmanAte(GeneralElement[][] map) {
+        map[getY() / size][getY() / size] = new Empty(getX(), getY());
+    }
 }

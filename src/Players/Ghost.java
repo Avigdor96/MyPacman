@@ -2,6 +2,7 @@ package Players;
 
 import Graphic.GamePanel;
 import Maps.MapLevel1;
+import Objects.Eatable;
 import Objects.GeneralElement;
 //import Objects.Speed;
 
@@ -9,7 +10,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Ghost extends Player {
+public class Ghost extends Player implements Eatable {
     protected int speed = 1;
     protected int currentDirection = -1;
     protected ImageIcon srcImage;
@@ -17,12 +18,12 @@ public class Ghost extends Player {
     protected MapLevel1 mapLevel1 = new MapLevel1();
     protected GeneralElement[][] map = mapLevel1.ElementMap();
     protected boolean food;
+    protected int value = 200;
     protected boolean needToGoAfter3sec;
     protected boolean move;
     protected Timer exitTimer;
 
     public Ghost() {
-        //this.mapLevel1 = new MapLevel1();
         image = srcImage;
         setPoint(startPointX * size, startPointY * size);
         startPoint();
@@ -120,6 +121,11 @@ public class Ghost extends Player {
         return food;
     }
 
+    @Override
+    public boolean canEat() {
+        return isFood();
+    }
+
     public void setFood(boolean food) {
         this.food = food;
     }
@@ -146,4 +152,14 @@ public class Ghost extends Player {
             exitTimer.start();
         }
         }
+
+    @Override
+    public int getValue() {
+        return value;
+    }
+
+    @Override
+    public void afterPacmanAte(GeneralElement[][] map) {
+
+    }
 }

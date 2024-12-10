@@ -67,6 +67,7 @@ public class Pacman extends Player {
         return value;
     }
 
+
     public void addScore(int score) {
         this.score += score;
     }
